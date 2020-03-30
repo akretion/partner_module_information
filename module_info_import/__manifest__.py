@@ -9,5 +9,5 @@
     "category": "Tools",
     "depends": ["module_info_partner"],
     "data": ["data/ir_config_parameter.xml", "data/ir_cron.xml"],
-    "installable": True,
+    "installable": False,
 }

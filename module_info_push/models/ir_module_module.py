@@ -1,8 +1,8 @@
 # coding: utf-8
 
 import requests
-from odoo import models, fields, api, release, _
-from odoo.exceptions import UserError
+from openerp import models, fields, api, release, _
+from openerp.exceptions import Warning as UserError
 import logging
 
 

@@ -3,7 +3,7 @@
 {
     "name": "Module Info Push",
     "description": "Send information about installed module in the database",
-    "version": "10.0.1.0.0",
+    "version": "8.0.1.0.0",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "category": "Tools",

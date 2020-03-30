@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<odoo noupdate="1">
+<openerp>
+    <data noupdate="1">
 
     <record forcecreate="True" id="push_module_info_job" model="ir.cron">
         <field name="name">Push Module information</field>
@@ -15,4 +16,5 @@
         <field eval="'()'" name="args"/>
     </record>
 
-</odoo>
+    </data>
+</openerp>
