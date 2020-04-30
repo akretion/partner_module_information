@@ -24,7 +24,7 @@ class ExternalModuleController(main.RestController):
         auth_api_key = getattr(request, "auth_api_key", None)
         if auth_api_key:
             partner = request.env["res.partner"].search(
-                [("project_auth_api_key_id", "=", auth_api_key.id)]
+                [("module_auth_api_key_id", "=", auth_api_key.id)]
             )
             if partner:
                 return partner
