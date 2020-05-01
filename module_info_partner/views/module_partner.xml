@@ -21,6 +21,10 @@
                 <field name="module_id"/>
                 <field name="partner_id"/>
                 <field name="version_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Module" name="module" domain="[]" context="{'group_by':'module_id'}"/>
+                </group>
             </search>
         </field>
     </record>
