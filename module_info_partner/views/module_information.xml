@@ -46,6 +46,8 @@
                     <page string="Versions And modules">
                         <separator string="Available Versions"/>
                         <field name="available_version_ids"/>
+                        <separator string="Work in Progress Versions"/>
+                        <field name="wip_version_ids"/>
                         <separator string="Equivalent Modules"/>
                         <field name="equivalent_module_ids"/>
                         <separator string="Alternative Modules"/>
