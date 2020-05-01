@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="module_info_partner.module_partner_tree_view"/>
         <field name="arch" type="xml">
             <field name="version_id" position="after">
-                <field name="migrated"/>
+                <field name="migration_status"/>
             </field>
         </field>
     </record>
@@ -16,9 +16,12 @@
         <field name="inherit_id" ref="module_info_partner.module_partner_search_view"/>
         <field name="arch" type="xml">
             <field name="version_id" position="after">
-                <filter name="migrated" string="Migrated" domain="[('migrated', '=', True)]"/>
-                <filter name="not_migrated" string="To migrate" domain="[('migrated', '=', False)]"/>
+                <filter name="migrated" string="Migrated" domain="[('migration_status', '=', 'done')]"/>
+                <!--<filter name="not_migrated" string="To migrate" domain="[('migrated', '=', False)]"/>-->
             </field>
+            <filter name="module" position="after">
+                <filter string="Migration Status" name="migration" domain="[]" context="{'group_by':'migration_status'}"/>
+            </filter>
         </field>
     </record>
 
