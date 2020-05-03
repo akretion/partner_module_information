@@ -8,8 +8,7 @@ class ModulePartner(models.Model):
 
     partner_id = fields.Many2one("res.partner", required=True, index=True, string="Partner")
     version_id = fields.Many2one(
-        "odoo.version", string="Version", required=True, index=True, string="Version"
-    )
+        "odoo.version", string="Version", required=True, index=True)
     module_id = fields.Many2one("module.information", required=True, index=True, string="Module")
 
     @api.model
