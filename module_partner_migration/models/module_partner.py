@@ -30,10 +30,7 @@ class ModulePartner(models.Model):
             # for now, they have no version. And any other known module should have
             # at least one version. But this is just temporary, as it does not seem
             # very reliable
-            elif (
-                not record.module_id.available_version_ids
-                or target_version in record.module_id.available_version_ids
-            ):
+            elif target_version in record.module_id.available_version_ids:
                 record.migration_status = 'done'
             elif target_version in record.module_id.wip_version_ids:
                 record.migration_status = 'ongoing_pr'
