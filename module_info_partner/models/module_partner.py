@@ -58,14 +58,14 @@ class ModulePartner(models.Model):
         # github_connector_odoo, we should rarely create any module.version
         # from here except for custom modules.
 
-        # we can't know if it is merged or in PR, let's consider it merged
-        # (done) it will be updated by synchro with github_connector_odoo (if
-        # used)
+        # we can't know if it is merged or in PR, let's consider it in PR (pending)
+        # it will be updated by synchro with github_connector_odoo (if
+        # used) or manually
         module_version = self.env["module.version"].search(
             [("module_id", "=", module.id), ("version_id", "=", version.id)]
         )
         if not module_version:
             self.env["module.version"].create(
-                {"module_id": module.id, "version_id": version.id, "state": "done"}
+                {"module_id": module.id, "version_id": version.id, "state": "pending"}
             )
         return partner_module
