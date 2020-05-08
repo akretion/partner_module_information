@@ -21,10 +21,14 @@ class IrModuleModule(models.Model):
         info = {"version": release.version, "modules": []}
         for module in modules:
             # TODO get description from readme if any...
+            try:
+                description = module.description_html
+            except Exception:
+                description = ""
             modules_info = {
                 "name": module.name,
                 "shortdesc": module.shortdesc,
-                "description": module.description_html,
+                "description": description,
                 "author": module.author,
             }
             info["modules"].append(modules_info)
