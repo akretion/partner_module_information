@@ -75,7 +75,7 @@ class ModuleInformation(models.Model):
             for module_version in module.module_version_ids:
                 if module_version.state == "done":
                     available_version_ids.append(module_version.version_id.id)
-                elif module_version.state == 'cancel':
+                elif module_version.state == 'pending':
                     wip_version_ids.append(module_version.version_id.id)
             missing_versions = odoo_versions.filtered(lambda v: v.id not in available_version_ids and v.id not in wip_version_ids)
             for missing_version in missing_versions:
