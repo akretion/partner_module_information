@@ -15,6 +15,7 @@
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <search string="Module Information">
+                <field name="technical_name"/>
                 <field name="name"/>
             </search>
         </field>
