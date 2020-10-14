@@ -10,9 +10,9 @@
         <field name="interval_type">weeks</field>
         <field name="numbercall">-1</field>
         <field eval="False" name="doall"/>
-        <field eval="'module.information'" name="model"/>
-        <field eval="'synchronize_module_from_github_connector_stat'" name="function"/>
-        <field eval="'()'" name="args"/>
+        <field ref="model_module_information" name="model_id"/>
+         <field name="state">code</field>
+         <field name="code">model.synchronize_module_from_github_connector_stat()</field>
     </record>
 
 </odoo>
