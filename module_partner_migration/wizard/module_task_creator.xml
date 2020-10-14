@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_task_creator_form_view" model="ir.ui.view">
+        <field name="name">module.task.creator.form</field>
+        <field name="model">module.task.creator</field>
+        <field name="arch" type="xml">
+            <form string="Module Task Creator">
+                <group>
+                    <field name="project_id" domain="[('partner_id', '=', partner_id)]"/>
+                    <field name="partner_id" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="validate"
+                            string="Confirm" type="object"
+                            class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link"
+                            special="cancel" />
+                 </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="module_task_creator_action" model="ir.actions.act_window">
+        <field name="name">Create Project Tasks</field>
+        <field name="res_model">module.task.creator</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="module_info_partner.model_module_partner" />
+    </record>
+
+</odoo>
