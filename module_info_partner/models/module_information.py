@@ -4,6 +4,7 @@ from odoo import models, fields, api
 class ModuleInformation(models.Model):
     _name = "module.information"
     _rec_name = 'technical_name'
+    _description = "Module Information and availability"
 
     # TODO add unique constraint
     technical_name = fields.Char(string="Technical Name", readonly=True, index=True)

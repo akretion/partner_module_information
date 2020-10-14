@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class OdooVersion(models.Model):
     _name = "odoo.version"
     _rec_name = "version"
+    _description = "Odoo Version"
 
     version = fields.Selection(
         [

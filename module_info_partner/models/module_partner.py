@@ -4,6 +4,7 @@ from odoo import models, fields, api
 
 class ModulePartner(models.Model):
     _name = "module.partner"
+    _description = "Modules used by partner"
 
     partner_id = fields.Many2one("res.partner", required=True, index=True, string="Partner")
     version_id = fields.Many2one(

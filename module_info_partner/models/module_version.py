@@ -3,6 +3,7 @@ from odoo import models, fields, api
 
 class ModuleVersion(models.Model):
     _name = "module.version"
+    _description = "Available module in a specific Odoo version"
 
     version_id = fields.Many2one("odoo.version", required=True, index=True)
     module_id = fields.Many2one("module.information", required=True, index=True)
