@@ -1,17 +1,9 @@
-# -*- coding: utf-8 -*-
-# Copyright 2016 Akretion (http://www.akretion.com)
-# Benoit Guillot <benoit.guillot@akretion.com>
+# Copyright 2020 Akretion (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-# pylint: disable=W8106
-# pylint: disable=consider-merging-classes-inherited
 
-import json
 import logging
 
-from odoo.exceptions import AccessError
-from odoo.tools.translate import _
 
-from odoo.addons.base_rest.components.service import to_bool
 from odoo.addons.component.core import Component
 
 _logger = logging.getLogger(__name__)
