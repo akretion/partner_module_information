@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo noupdate="1">
+
+    <record id="odoo_version_61" model="odoo.version">
+        <field name="version">6.1</field>
+    </record>
+
+    <record id="odoo_version_7" model="odoo.version">
+        <field name="version">7.0</field>
+    </record>
+
+    <record id="odoo_version_8" model="odoo.version">
+        <field name="version">8.0</field>
+    </record>
+
+    <record id="odoo_version_9" model="odoo.version">
+        <field name="version">9.0</field>
+    </record>
+
+    <record id="odoo_version_10" model="odoo.version">
+        <field name="version">10.0</field>
+    </record>
+
+    <record id="odoo_version_11" model="odoo.version">
+        <field name="version">11.0</field>
+    </record>
+
+    <record id="odoo_version_12" model="odoo.version">
+        <field name="version">12.0</field>
+    </record>
+
+    <record id="odoo_version_13" model="odoo.version">
+        <field name="version">13.0</field>
+    </record>
+
+    <record id="odoo_version_14" model="odoo.version">
+        <field name="version">14.0</field>
+    </record>
+
+</odoo>
