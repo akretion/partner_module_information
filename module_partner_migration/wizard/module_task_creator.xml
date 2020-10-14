@@ -28,15 +28,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-    </record>
-
-    <record model="ir.values" id="module_task_creator_values">
-        <field name="model_id" ref="module_info_partner.model_module_partner"/>
-        <field name="name">Create Project Tasks</field>
-        <field name="key2">client_action_multi</field>
-        <field name="value" eval="'ir.actions.act_window,' + str(ref('module_task_creator_action'))" />
-        <field name="key">action</field>
-        <field name="model">module.partner</field>
+        <field name="binding_model_id" ref="module_info_partner.model_module_partner" />
     </record>
 
 </odoo>
