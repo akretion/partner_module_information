@@ -7,5 +7,5 @@
     "category": "Tools",
     "depends": ["module_info_partner", 'project', 'project_stage_state'],
     "data": ["views/res_partner.xml", "views/module_partner.xml", "views/module_information.xml", "wizard/module_task_creator.xml"],
-    "installable": True,
+    "installable": False,
 }

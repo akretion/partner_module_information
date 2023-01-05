@@ -9,5 +9,5 @@
     "category": "Tools",
     "depends": ["base_rest", "github_connector_odoo"],
     "data": [],
-    "installable": True,
+    "installable": False,
 }

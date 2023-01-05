@@ -16,5 +16,5 @@
         "views/module_partner.xml",
         "views/module_version.xml",
     ],
-    "installable": True,
+    "installable": False,
 }
