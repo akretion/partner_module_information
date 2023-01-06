@@ -38,4 +38,12 @@
         <field name="version">14.0</field>
     </record>
 
+    <record id="odoo_version_15" model="odoo.version">
+        <field name="version">15.0</field>
+    </record>
+
+    <record id="odoo_version_16" model="odoo.version">
+        <field name="version">16.0</field>
+    </record>
+
 </odoo>

@@ -25,7 +25,6 @@
     <record id="module_task_creator_action" model="ir.actions.act_window">
         <field name="name">Create Project Tasks</field>
         <field name="res_model">module.task.creator</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="module_info_partner.model_module_partner" />

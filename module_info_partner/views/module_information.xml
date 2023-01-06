@@ -29,6 +29,7 @@
                 <field name="technical_name"/>
                 <field name="name"/>
                 <field name="authors"/>
+                <field name="host_repository_id"/>
             </tree>
         </field>
     </record>
@@ -69,7 +70,6 @@
         <field name="name">Module Information</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">module.information</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="module_information_search_view"/>
     </record>

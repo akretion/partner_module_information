@@ -1,12 +1,25 @@
 from odoo import models, fields, api
 
 
+class HostRepository(models.Model):
+    _name = "host.repository"
+    _rec_name = 'repo_name'
+    _description = "List of all module repository"
+
+    repo_name = fields.Char(string="Repository Name", readonly=True, index=True)
+    url = fields.Char()
+    modules_ids = fields.One2many("module.information",
+                                  "host_repository_id",
+                                  string="Module information")
+    # will be populate with adaptation of module_info_import
+
+
 class ModuleInformation(models.Model):
     _name = "module.information"
     _rec_name = 'technical_name'
     _description = "Module Information and availability"
 
-    # TODO add unique constraint
+    # TODO add unique constraint, see proposal line 69
     technical_name = fields.Char(string="Technical Name", readonly=True, index=True)
     name = fields.Char(readonly=True)
     description_rst = fields.Text(readonly=True)
@@ -15,6 +28,7 @@ class ModuleInformation(models.Model):
         help="Edit this field to store complementary information about the " "module"
     )
     authors = fields.Char(readonly=True)
+    host_repository_id = fields.Many2one("host.repository", index=True, string="Host Repository")
     module_version_ids = fields.One2many(
         "module.version", "module_id", string="Module Versions"
     )
@@ -52,6 +66,11 @@ class ModuleInformation(models.Model):
         help="Fill the field with modules that have very similar features with"
         "this one and could replace it.",
     )
+    
+    # TO VALIDATE: (cf anotation add unique constraint)
+    _sql_constraints = [
+        ('uniq_technical_name', 'unique(technical_name)', 'technical_name must be unique'),
+    ]
 
     @api.depends(
         "module_version_ids.state", "equivalent_module_ids.module_version_ids.state"

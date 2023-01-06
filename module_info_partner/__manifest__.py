@@ -3,7 +3,7 @@
 {
     "name": "Module Info Partner",
     "description": "Information about odoo modules used by your partners",
-    "version": "12.0.1.0.0",
+    "version": "14.0.0.0.0",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "category": "Tools",
@@ -16,5 +16,5 @@
         "views/module_partner.xml",
         "views/module_version.xml",
     ],
-    "installable": False,
+    "installable": True,
 }
