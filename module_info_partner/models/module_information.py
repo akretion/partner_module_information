@@ -1,22 +1,22 @@
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class HostRepository(models.Model):
     _name = "host.repository"
-    _rec_name = 'repo_name'
+    _rec_name = "repo_name"
     _description = "List of all module repository"
 
     repo_name = fields.Char(string="Repository Name", readonly=True, index=True)
     url = fields.Char()
-    modules_ids = fields.One2many("module.information",
-                                  "host_repository_id",
-                                  string="Module information")
+    modules_ids = fields.One2many(
+        "module.information", "host_repository_id", string="Module information"
+    )
     # will be populate with adaptation of module_info_import
 
 
 class ModuleInformation(models.Model):
     _name = "module.information"
-    _rec_name = 'technical_name'
+    _rec_name = "technical_name"
     _description = "Module Information and availability"
 
     # TODO add unique constraint, see proposal line 69
@@ -28,7 +28,9 @@ class ModuleInformation(models.Model):
         help="Edit this field to store complementary information about the " "module"
     )
     authors = fields.Char(readonly=True)
-    host_repository_id = fields.Many2one("host.repository", index=True, string="Host Repository")
+    host_repository_id = fields.Many2one(
+        "host.repository", index=True, string="Host Repository"
+    )
     module_version_ids = fields.One2many(
         "module.version", "module_id", string="Module Versions"
     )
@@ -66,10 +68,14 @@ class ModuleInformation(models.Model):
         help="Fill the field with modules that have very similar features with"
         "this one and could replace it.",
     )
-    
+
     # TO VALIDATE: (cf anotation add unique constraint)
     _sql_constraints = [
-        ('uniq_technical_name', 'unique(technical_name)', 'technical_name must be unique'),
+        (
+            "uniq_technical_name",
+            "unique(technical_name)",
+            "technical_name must be unique",
+        ),
     ]
 
     @api.depends(
@@ -86,18 +92,23 @@ class ModuleInformation(models.Model):
         # for now, we manage most case and don't care too much about
         # the very special cases.
         # we check if every module version of equivalent modules are done.
-        odoo_versions = self.env['odoo.version'].search([])
+        odoo_versions = self.env["odoo.version"].search([])
         for module in self:
             available_version_ids = []
             wip_version_ids = []
             for module_version in module.module_version_ids:
                 if module_version.state == "done":
                     available_version_ids.append(module_version.version_id.id)
-                elif module_version.state == 'pending':
+                elif module_version.state == "pending":
                     wip_version_ids.append(module_version.version_id.id)
-            missing_versions = odoo_versions.filtered(lambda v: v.id not in available_version_ids and v.id not in wip_version_ids)
+            missing_versions = odoo_versions.filtered(
+                lambda v: v.id not in available_version_ids
+                and v.id not in wip_version_ids
+            )
             for missing_version in missing_versions:
-                equivalent_modules = module._get_equivalent_modules_from_version(missing_version)
+                equivalent_modules = module._get_equivalent_modules_from_version(
+                    missing_version
+                )
                 if not equivalent_modules:
                     continue
                 equivalent_module_versions = self.env["module.version"].search(
@@ -107,7 +118,7 @@ class ModuleInformation(models.Model):
                     ]
                 )
                 if len(equivalent_module_versions) == len(equivalent_modules):
-                    if all([mv.state == 'done' for mv in equivalent_module_versions]):
+                    if all([mv.state == "done" for mv in equivalent_module_versions]):
                         available_version_ids.append(missing_version.id)
                     else:
                         wip_version_ids.append(missing_version.id)

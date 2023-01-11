@@ -1,15 +1,19 @@
-
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class ModulePartner(models.Model):
     _name = "module.partner"
     _description = "Modules used by partner"
 
-    partner_id = fields.Many2one("res.partner", required=True, index=True, string="Partner")
+    partner_id = fields.Many2one(
+        "res.partner", required=True, index=True, string="Partner"
+    )
     version_id = fields.Many2one(
-        "odoo.version", string="Version", required=True, index=True)
-    module_id = fields.Many2one("module.information", required=True, index=True, string="Module")
+        "odoo.version", string="Version", required=True, index=True
+    )
+    module_id = fields.Many2one(
+        "module.information", required=True, index=True, string="Module"
+    )
 
     @api.model
     def _prepare_module_info_vals(self, module_info):

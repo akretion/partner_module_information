@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
 <record id="module_info_api_key_parameter" model="ir.config_parameter">
@@ -10,6 +9,11 @@
 <record id="module_info_url_parameter" model="ir.config_parameter">
     <field name="key">module.api.url</field>
     <field name="value">TO CONFIGURE</field>
+</record>
+
+<record id="module_info_allow_custom" model="ir.config_parameter">
+    <field name="key">module.allow.custom</field>
+    <field name="value">False</field>
 </record>
 
 </odoo>
