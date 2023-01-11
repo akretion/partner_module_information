@@ -40,8 +40,8 @@ repos:
     hooks:
       # update the NOT INSTALLABLE ADDONS section above
       - id: oca-update-pre-commit-excluded-addons
-      # - id: oca-fix-manifest-website
-      #   args: ["https://github.com/akretion/partner-module-information"]
+      - id: oca-fix-manifest-website
+        args: ["https://github.com/akretion/partner-module-information"]
   - repo: https://github.com/myint/autoflake
     rev: v1.4
     hooks:
