@@ -16,4 +16,9 @@
     <field name="value">False</field>
 </record>
 
+<record id="module_info.custom_path" model="ir.config_parameter">
+    <field name="key">module.custom.path</field>
+    <field name="value">/local-src/</field>
+</record>
+
 </odoo>
