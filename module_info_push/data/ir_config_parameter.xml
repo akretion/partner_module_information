@@ -11,12 +11,7 @@
     <field name="value">TO CONFIGURE</field>
 </record>
 
-<record id="module_info_allow_custom" model="ir.config_parameter">
-    <field name="key">module.allow.custom</field>
-    <field name="value">False</field>
-</record>
-
-<record id="module_info.custom_path" model="ir.config_parameter">
+<record id="module_info_custom_path" model="ir.config_parameter">
     <field name="key">module.custom.path</field>
     <field name="value">/local-src/</field>
 </record>

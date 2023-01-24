@@ -19,29 +19,20 @@ class IrModuleModule(models.Model):
 
     @api.model
     def _get_installed_module_info(self):
-
         modules = self.search([("state", "in", ("installed", "to upgrade"))])
-
-        # add a parameter to filter custom module:
-        include_custom = (
-            self.env["ir.config_parameter"].sudo().get_param("module_info.allow.custom")
-        )
-
-        # filter on addonpath
-        if not include_custom:
-            modules = modules.filtered(lambda module: not module.is_custom_module)
-
-        info = {"version": release.version, "modules": []}
-        for module in modules:
-            # TODO get description from readme if any...
-            modules_info = {
-                "name": module.name,
-                "shortdesc": module.shortdesc,
-                "description": module.description_html,
-                "author": module.author,
-            }
-            info["modules"].append(modules_info)
-        return info
+        return {
+            "version": release.version,
+            "modules": [
+                {
+                    "name": module.name,
+                    "shortdesc": module.shortdesc,
+                    "description": module.description_html,
+                    "author": module.author,
+                    "is_custom": module.is_custom_module,
+                }
+                for module in modules
+            ],
+        }
 
     # called by cron
     @api.model
