@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="module_host_repo_tree_view" model="ir.ui.view">
+        <field name="name">host.repository.tree.view</field>
+        <field name="model">host.repository</field>
+        <field name="arch" type="xml">
+            <tree string="Module Host Repository">
+                <field name="organisation" />
+                <field name="name" />
+                <field name="url" />
+                <field name="modules_ids" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="module_host_repo_action" model="ir.actions.act_window">
+        <field name="name">Module Repository</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">host.repository</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="module_host_repository_menu"
+        name="Module Repository"
+        parent="modules_information_main_menu"
+        action="module_host_repo_action"
+        sequence="4"
+    />
+
+</odoo>

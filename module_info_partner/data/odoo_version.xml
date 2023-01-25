@@ -45,4 +45,8 @@
         <field name="version">16.0</field>
     </record>
 
+    <record id="odoo_version_unknown" model="odoo.version">
+        <field name="version">Unknown version, please update odoo.version</field>
+    </record>
+
 </odoo>

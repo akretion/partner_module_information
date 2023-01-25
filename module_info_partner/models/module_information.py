@@ -3,15 +3,15 @@ from odoo import api, fields, models
 
 class HostRepository(models.Model):
     _name = "host.repository"
-    _rec_name = "repo_name"
+    _rec_name = "name"
     _description = "List of all module repository"
 
-    repo_name = fields.Char(string="Repository Name", readonly=True, index=True)
+    name = fields.Char(string="Repository Name", readonly=True, index=True)
+    organisation = fields.Char(string="Organisation Name")
     url = fields.Char()
     modules_ids = fields.One2many(
         "module.information", "host_repository_id", string="Module information"
     )
-    # will be populate with adaptation of module_info_import
 
 
 class ModuleInformation(models.Model):
@@ -19,7 +19,6 @@ class ModuleInformation(models.Model):
     _rec_name = "technical_name"
     _description = "Module Information and availability"
 
-    # TODO add unique constraint, see proposal line 69
     technical_name = fields.Char(string="Technical Name", readonly=True, index=True)
     name = fields.Char(readonly=True)
     description_rst = fields.Text(readonly=True)
@@ -69,7 +68,6 @@ class ModuleInformation(models.Model):
         "this one and could replace it.",
     )
 
-    # TO VALIDATE: (cf anotation add unique constraint)
     _sql_constraints = [
         (
             "uniq_technical_name",

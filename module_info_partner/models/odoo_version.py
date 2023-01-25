@@ -19,5 +19,9 @@ class OdooVersion(models.Model):
             ("14.0", "14.0"),
             ("15.0", "15.0"),
             ("16.0", "16.0"),
+            (
+                "Unknown version, please update odoo.version",
+                "Unknown version, please update odoo.version",
+            ),
         ]
     )

@@ -28,7 +28,6 @@
             <tree string="Module Information">
                 <field name="technical_name" />
                 <field name="name" />
-                <field name="authors" />
                 <field name="host_repository_id" />
             </tree>
         </field>
@@ -43,6 +42,7 @@
                     <field name="technical_name" />
                     <field name="name" />
                     <field name="authors" />
+                    <field name="host_repository_id" />
                 </group>
                 <notebook>
                     <page string="Versions And modules">
