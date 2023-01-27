@@ -18,8 +18,10 @@ class ModuleInformation(models.Model):
     @api.model
     def get_module_info(self, version):
         # make it multi version 14.0 /15.0 /16.0
-        url = f"https://raw.githubusercontent.com/akretion \
-            /odoo-module-tracker/gh-pages/{version}.yml"
+        url = (
+            "https://raw.githubusercontent.com/akretion"
+            f"/odoo-module-tracker/gh-pages/{version}.yml"
+        )
         response = requests.get(url)
         modules_list = yaml.safe_load(response.text)
         return modules_list
@@ -45,13 +47,6 @@ class ModuleInformation(models.Model):
 
     @api.model
     def _update_modules(self, version, orga, repo, module):
-        # ajouter sur les repos les liste des versions
-
-        # recoit un seul module a la fois
-        # mettre a jour si la version est plus récente uniquement
-
-        # test: faire un  mock_request sur la récupératiuon du yaml
-        # et valider l'import dans module information.
         odoo_version_dct = {
             v.version: v.id for v in self.env["odoo.version"].search([])
         }
@@ -70,75 +65,30 @@ class ModuleInformation(models.Model):
             version_id = "odoo_version_unknown"
 
         vals = {
-            # "name": scan manifest
+            # "name": scan manifest, module name in manifest
             # "authors":  Scan manifest
-            "module_version_ids": [version_id],
+            # "module_version_ids": #to add module version (not odoo version),
+            "available_version_ids": [(4, version_id, 0)],
             "host_repository_id": host_id.id,
             "technical_name": module,  # resultat du search
-            # 'module_version_ids': "?"
         }
 
         module = self.search([("technical_name", "=", module)])
         if module:
             vals.pop("technical_name")
-            module.write(vals)
+            # handle case of duplicate module with different orga
+            if module.host_repository_id.organisation != orga:
+                prio = ["oca", "akretion"]
+                if orga in prio:
+                    for host in prio:
+                        if host == orga:
+                            vals["host_repository_id"] = host_id
+                            break
+                    module.write(vals)
+                else:
+                    if module.host_repository_id.organisation not in prio:
+                        module.write(vals)
+            else:
+                module.write(vals)
         else:
             module = self.create(vals)
-
-    #   def backup_update(self):
-
-    #     # Since the goal is to resynchronize all modules and versions, it
-    #     # seems appropriate to make one big search and then work with cache.
-    #     #        existing_module = self.search([])
-    #     #        test = dict([(x.name, x.id) for x in existing_module])
-    #     #        existing_module_names = test.keys()
-    #     #        for module_info in data:
-    #     #            if module_info['technical_name'] in existing_module_names:
-    #     #                module_id = test.get(module_info['technical_name'])
-    #     #                self.browse(module_id).write({'name': module_info['technical_name']})
-    #     #            else:
-    #     #                self.create({'name': {'name': module_info['technical_name']}})
-    #     odoo_version_dct = dict(
-    #         [(v.version, v.id) for v in self.env["odoo.version"].search([])]
-    #     )
-
-    #     for module_info in data:
-    #         module = self.search(
-    #             [("technical_name", "=", module_info["technical_name"])]
-    #         )
-    #         vals = self._get_module_information_vals_from_github_stat(module_info)
-    #         if module:
-    #             module.write(vals)
-    #             # create /update available versions of module.
-    #             if module_info["versions"]:
-    #                 version_modules = self.env["module.version"].search(
-    #                     [("module_id", "=", module.id)]
-    #                 )
-    #                 for version in module_info["versions"]:
-    #                     version_module = version_modules.filtered(
-    #                         lambda m: m.version_id.version == version
-    #                     )
-    #                     if version_module.state == "pending":
-    #                         version_module.state = "done"
-    #                     elif version_module:
-    #                         continue
-    #                     else:
-    #                         self.env["module.version"].create(
-    #                             {
-    #                                 "module_id": module.id,
-    #                                 "version_id": odoo_version_dct[version],
-    #                                 "state": "done",
-    #                             }
-    #                         )
-    #         else:
-    #             vals["technical_name"] = module_info["technical_name"]
-    #             module = self.create(vals)
-    #             # create available versions
-    #             for version in module_info["versions"]:
-    #                 self.env["module.version"].create(
-    #                     {
-    #                         "module_id": module.id,
-    #                         "version_id": odoo_version_dct[version],
-    #                         "state": "done",
-    #                     }
-    #                 )
