@@ -7,7 +7,7 @@ class HostRepository(models.Model):
     _description = "List of all module repository"
 
     name = fields.Char(string="Repository Name", readonly=True, index=True)
-    organisation = fields.Char(string="Organisation Name")
+    organization = fields.Char(string="Organization Name")
     url = fields.Char()
     modules_ids = fields.One2many(
         "module.information", "host_repository_id", string="Module information"
@@ -22,7 +22,6 @@ class ModuleInformation(models.Model):
     technical_name = fields.Char(string="Technical Name", readonly=True, index=True)
     name = fields.Char(readonly=True)
     description_rst = fields.Text(readonly=True)
-    description_html = fields.Html(readonly=True)
     short_description = fields.Text(
         help="Edit this field to store complementary information about the " "module"
     )

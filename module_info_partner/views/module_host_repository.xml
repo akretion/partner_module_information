@@ -7,7 +7,7 @@
         <field name="model">host.repository</field>
         <field name="arch" type="xml">
             <tree string="Module Host Repository">
-                <field name="organisation" />
+                <field name="organization" />
                 <field name="name" />
                 <field name="url" />
                 <field name="modules_ids" />

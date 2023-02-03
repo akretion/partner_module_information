@@ -52,22 +52,19 @@ class ModuleInformation(models.Model):
         }
 
         # create Host orga & repo:
-        host_vals = {"organisation": orga, "name": repo}
+        host_vals = {"organization": orga, "name": repo}
         host_id = self.env["host.repository"].search([("name", "=", repo)], limit=1)
-        if host_id and host_id.organisation != orga:
+
+        if host_id and host_id.organization != orga:
             self.env["host.repository"].create(host_vals)
         elif not host_id:
             host_id = self.env["host.repository"].create(host_vals)
 
         # check version
-        version_id = odoo_version_dct.get(version, False)
-        if not version_id:
-            version_id = "odoo_version_unknown"
+        version_id = odoo_version_dct.get(version, "odoo_version_unknown")
 
         vals = {
-            # "name": scan manifest, module name in manifest
-            # "authors":  Scan manifest
-            # "module_version_ids": #to add module version (not odoo version),
+            # "module_version_ids":
             "available_version_ids": [(4, version_id, 0)],
             "host_repository_id": host_id.id,
             "technical_name": module,  # resultat du search
@@ -77,7 +74,7 @@ class ModuleInformation(models.Model):
         if module:
             vals.pop("technical_name")
             # handle case of duplicate module with different orga
-            if module.host_repository_id.organisation != orga:
+            if module.host_repository_id.organization != orga:
                 prio = ["oca", "akretion"]
                 if orga in prio:
                     for host in prio:
@@ -86,7 +83,7 @@ class ModuleInformation(models.Model):
                             break
                     module.write(vals)
                 else:
-                    if module.host_repository_id.organisation not in prio:
+                    if module.host_repository_id.organization not in prio:
                         module.write(vals)
             else:
                 module.write(vals)

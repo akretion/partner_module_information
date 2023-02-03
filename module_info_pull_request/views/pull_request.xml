@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="pull_request_main_menu"
+        name="PR"
+        parent="module_info_partner.module_info_menu_root"
+        sequence="2"
+    />
+
+
+    <record id="pull_request_tree_view" model="ir.ui.view">
+        <field name="name">pull.request.tree.view</field>
+        <field name="model">pull.request</field>
+        <field name="arch" type="xml">
+            <tree string="Pull Request">
+                <field name="title" />
+                <field name="repo_id" />
+                <field name="date_open" />
+                <field name="date_updated" />
+                <field name="date_closed" />
+                <field name="version_id" />
+                <field name="state" />
+                <field name="url" />
+                <!-- <field name="modules_ids" /> -->
+            </tree>
+        </field>
+    </record>
+
+    <record id="pull_request_action" model="ir.actions.act_window">
+        <field name="name">Pull Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pull.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+    <menuitem
+        id="pull_request_menu"
+        name="List"
+        parent="pull_request_main_menu"
+        action="pull_request_action"
+        sequence="3"
+    />
+
+</odoo>

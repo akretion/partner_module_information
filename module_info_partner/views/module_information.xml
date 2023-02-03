@@ -59,7 +59,6 @@
                         <group>
                             <field name="short_description" />
                         </group>
-                        <field name="description_html" />
                     </page>
                 </notebook>
             </form>
