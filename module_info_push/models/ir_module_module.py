@@ -63,10 +63,11 @@ class IrModuleModule(models.Model):
         return data
 
     def _compute_is_custom_module(self):
+        custom_path = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("module.custom.path", "/local-src/")
+        )
         for record in self:
-            custom_path = (
-                self.env["ir.config_parameter"].sudo().get_param("module.custom.path")
-            )
-            for record in self:
-                module_path = get_module_path(record.name)
-                record.is_custom_module = module_path and custom_path in module_path
+            module_path = get_module_path(record.name)
+            record.is_custom_module = module_path and custom_path in module_path
