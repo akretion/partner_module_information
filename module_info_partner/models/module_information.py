@@ -10,7 +10,7 @@ class HostRepository(models.Model):
     organization = fields.Char(string="Organization Name")
     url = fields.Char()
     modules_ids = fields.One2many(
-        "module.information", "host_repository_id", string="Module information"
+        "module.information", "repo_id", string="Module information"
     )
 
 
@@ -26,8 +26,9 @@ class ModuleInformation(models.Model):
         help="Edit this field to store complementary information about the " "module"
     )
     authors = fields.Char(readonly=True)
-    host_repository_id = fields.Many2one(
-        "host.repository", index=True, string="Host Repository"
+    repo_id = fields.Many2one("host.repository", index=True, string="Host Repository")
+    partner_id = fields.Many2one(
+        "res.partner", index=True, string="Partner's Custom Module"
     )
     module_version_ids = fields.One2many(
         "module.version", "module_id", string="Module Versions"
@@ -70,8 +71,8 @@ class ModuleInformation(models.Model):
     _sql_constraints = [
         (
             "uniq_technical_name",
-            "unique(technical_name)",
-            "technical_name must be unique",
+            "unique(technical_name, partner_id)",
+            "the pair technical_name, partner_id must be unique",
         ),
     ]
 

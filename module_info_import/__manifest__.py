@@ -1,6 +1,6 @@
 {
     "name": "Module Info Import",
-    "summary": "Get information about modules from github connector odoo",
+    "summary": "Get information about modules from akretion/odoo-module-tracker",
     "version": "14.0.1.0.0",
     "website": "https://github.com/akretion/partner-module-information",
     "license": "AGPL-3",

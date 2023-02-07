@@ -57,6 +57,7 @@ class PullRequest(models.Model):
                 "date_open": datetime.strptime(
                     pr["created_at"], "%Y-%m-%dT%H:%M:%SZ"
                 ).strftime("%Y-%m-%d %H:%M:%S"),
+                # date_closed
                 # 'module_ids': # voir en appellant l'url du diff:
                 # "https://github.com/akretion/ak-odoo-incubator/pull/257.diff"
                 "version_id": odoo_version_dct.get(
