@@ -22,6 +22,7 @@ class ModulePartner(models.Model):
             "name": module_info.get("shortdesc"),
             "description_html": module_info.get("description"),
             "authors": module_info.get("author"),
+            # ajouter le champs partner_id si iscustom
         }
 
     @api.model
@@ -37,7 +38,14 @@ class ModulePartner(models.Model):
         tech_name = module_info.get("name")
         # check if module already exists
         module_info_obj = self.env["module.information"]
-        module = module_info_obj.search([("technical_name", "=", tech_name)])
+        module = module_info_obj.search(
+            [
+                ("technical_name", "=", tech_name),
+                "|",
+                ("partner_id", "=", False),
+                ("partner_id", "=", partner.id),
+            ]
+        )
         if not module:
             module = module_info_obj.create(self._prepare_module_info_vals(module_info))
         version = self.env["odoo.version"].search([("version", "=", version_num)])

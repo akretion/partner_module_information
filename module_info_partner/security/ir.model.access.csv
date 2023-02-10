@@ -3,4 +3,4 @@ access_module_information,full access module.information,model_module_informatio
 access_module_partner,full access module.partner,model_module_partner,base.group_user,1,1,1,1
 access_module_version,full access module.version,model_module_version,base.group_user,1,1,1,1
 access_odoo_version,full access odoo.version,model_odoo_version,base.group_user,1,1,1,1
-access_host.repository,full access odoo.version,model_host_repository,base.group_user,1,1,1,1
+access_module.repo,full access odoo.version,model_module_repo,base.group_user,1,1,1,1

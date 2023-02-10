@@ -1,7 +1,7 @@
 from odoo import fields, models
 
 
-class HostRepository(models.Model):
-    _inherit = "host.repository"
+class ModuleRepo(models.Model):
+    _inherit = "module.repo"
 
     updated_at = fields.Datetime(string="Last Update")

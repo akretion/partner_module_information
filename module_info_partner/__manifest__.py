@@ -14,7 +14,7 @@
         "data/odoo_version.xml",
         "views/module_partner.xml",
         "views/module_version.xml",
-        "views/module_host_repository.xml",
+        "views/module_repo.xml",
     ],
     "installable": True,
 }

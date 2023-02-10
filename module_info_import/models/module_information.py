@@ -64,13 +64,13 @@ class ModuleInformation(models.Model):
     @api.model
     def _get_or_create_repo(self, orga_name, repo_name):
         repo_vals = {"organization": orga_name, "name": repo_name}
-        repo = self.env["host.repository"].search(
+        repo = self.env["module.repo"].search(
             [("name", "=", repo_name), ("organization", "=", orga_name)], limit=1
         )
         if repo and repo.organization != orga_name:
-            self.env["host.repository"].create(repo_vals)
+            self.env["module.repo"].create(repo_vals)
         elif not repo:
-            repo = self.env["host.repository"].create(repo_vals)
+            repo = self.env["module.repo"].create(repo_vals)
         return repo
 
     @api.model

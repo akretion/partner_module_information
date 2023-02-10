@@ -6,12 +6,11 @@ class ModulePartner(models.Model):
 
     migration_status = fields.Selection(
         selection=[
-            ('wip', 'Work In Progress'),
             ('obsolete', 'Obsolete'),
             ('ongoing_pr', 'Ongoing Pull Request'),
             ('done', 'Done'),
         ], compute="_compute_migrated", store=True)
-    task_ids = fields.Many2many('project.task', string="tasks")
+    # task_ids = fields.Many2many('project.task', string="tasks")
 
     @api.depends("module_id.available_version_ids", "partner_id.target_odoo_version_id", "module_id.wip_version_ids", "module_id.obsolete_version_id", "task_ids.stage_id")
     def _compute_migrated(self):
@@ -26,12 +25,6 @@ class ModulePartner(models.Model):
                 obsolete_version_ids = []
             if target_version in record.module_id.wip_version_ids:
                 record.migration_status = 'ongoing_pr'
-            elif record.task_ids:
-                done = all([x.state in ('done', 'cancel') for x in record.task_ids])
-                if done:
-                    record.migration_status = 'done'
-                else:
-                    record.migration_status = 'wip'
             elif target_version.id in obsolete_version_ids:
                 record.migration_status = 'obsolete'
             elif target_version in record.module_id.available_version_ids:

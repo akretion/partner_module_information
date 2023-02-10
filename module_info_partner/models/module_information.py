@@ -1,32 +1,19 @@
 from odoo import api, fields, models
 
 
-class HostRepository(models.Model):
-    _name = "host.repository"
-    _rec_name = "name"
-    _description = "List of all module repository"
-
-    name = fields.Char(string="Repository Name", readonly=True, index=True)
-    organization = fields.Char(string="Organization Name")
-    url = fields.Char()
-    modules_ids = fields.One2many(
-        "module.information", "repo_id", string="Module information"
-    )
-
-
 class ModuleInformation(models.Model):
     _name = "module.information"
     _rec_name = "technical_name"
     _description = "Module Information and availability"
 
     technical_name = fields.Char(string="Technical Name", readonly=True, index=True)
-    name = fields.Char(readonly=True)
+    name = fields.Char(readonly=True, index=True)
     description_rst = fields.Text(readonly=True)
     short_description = fields.Text(
         help="Edit this field to store complementary information about the " "module"
     )
-    authors = fields.Char(readonly=True)
-    repo_id = fields.Many2one("host.repository", index=True, string="Host Repository")
+    authors = fields.Char(readonly=True, index=True)
+    repo_id = fields.Many2one("module.repo", index=True, string="Host Repository")
     partner_id = fields.Many2one(
         "res.partner", index=True, string="Partner's Custom Module"
     )
