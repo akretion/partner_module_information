@@ -9,7 +9,6 @@ from odoo.tests import TransactionCase
 class TestinfoImport(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.modules_yaml = self.env["module.information"].get_module_info("14.0")
         with open("tests/data/module_list_14.yaml", "r") as f:
             self.modules_yaml = f.read()
 

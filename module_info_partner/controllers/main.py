@@ -7,12 +7,12 @@ from odoo import _
 from odoo.exceptions import AccessError
 from odoo.http import request
 
-from odoo.addons.base_rest.controllers.main import RestController
+from odoo.addons.base_rest.controllers import main
 
 _logger = logging.getLogger(__name__)
 
 
-class ExternalModuleController(RestController):
+class ExternalModuleController(main.RestController):
     _root_path = "/module-api/"
     _collection_name = "partner.module"
     _default_auth = "api_key"

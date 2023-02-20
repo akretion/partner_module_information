@@ -6,7 +6,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/akretion/partner-module-information",
     "category": "Tools",
-    "depends": ["base_rest"],
+    "depends": ["base_rest", "auth_api_key"],
     "data": [
         "security/ir.model.access.csv",
         "views/module_information.xml",

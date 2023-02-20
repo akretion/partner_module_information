@@ -4,7 +4,7 @@ from datetime import datetime
 
 import requests
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -22,10 +22,14 @@ class PullRequest(models.Model):
     )
     version_id = fields.Many2one("odoo.version")
     reviewer_ids = fields.Many2many("res.users")
-    # TODO reviewer_count = fields.Integer(compute="count_")
+    reviewer_count = fields.Integer(compute="_compute_reviewer")
     state = fields.Char()
-    # url = fields.Char(related='repo_id.url', store=True)
     url = fields.Char()
+
+    @api.depends("reviewer_ids")
+    def _compute_reviewer(self):
+        for record in self:
+            record.reviewer_count = len(record.reviewer_ids)
 
     def get_pr_states(self):
         # called by cron
@@ -40,7 +44,6 @@ class PullRequest(models.Model):
                 ).import_pr(url, repo)
 
     def get_module_from_pr(self, url, modules):
-        # TO change, load one time ?
         git_token = (
             self.env["ir.config_parameter"]
             .sudo()
@@ -59,7 +62,7 @@ class PullRequest(models.Model):
             module_id = modules.get(module_name)
             if module_id and module_id not in module_ids:
                 module_ids.append(module_id)
-        _logger.info("MODULE TROUVES: %s", module_ids)
+        _logger.info("MODULE TROUVE: %s", module_ids)
         return module_ids
 
     def import_pr(self, url, repo):
@@ -71,11 +74,11 @@ class PullRequest(models.Model):
         modules = {
             m.technical_name: m.id for m in self.env["module.information"].search([])
         }
-        response = requests.get(url, headers={"authorization": f"Bearer {git_token}"})
-        prs = response.json()
         odoo_version_dct = {
             v.version: v.id for v in self.env["odoo.version"].search([])
         }
+        response = requests.get(url, headers={"authorization": f"Bearer {git_token}"})
+        prs = response.json()
         for pr in prs:
             if not odoo_version_dct.get(pr["base"]["ref"][:4], False):
                 continue
