@@ -12,6 +12,7 @@
         "data/ir_config_parameter.xml",
         "views/pull_request.xml",
         "security/ir.model.access.csv",
+        "views/module_information.xml",
     ],
     "installable": True,
     "external_dependencies": {"python": ["pyyaml"]},

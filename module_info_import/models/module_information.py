@@ -40,17 +40,12 @@ class ModuleInformation(models.Model):
             v.version: v.id for v in self.env["odoo.version"].search([])
         }
         repo = self._get_or_create_repo(orga_name, repo_name)
-
-        # check version
         version_id = odoo_version_dct.get(version, "odoo_version_unknown")
-
         vals = {
             "available_version_ids": [(4, version_id, 0)],
             "repo_id": repo.id,
-            "technical_name": module,  # resultat du search
-            # TODO "partner_id": get from api key
+            "technical_name": module,
         }
-
         module = self.search(
             [("technical_name", "=", module), ("partner_id", "=", False)]
         )

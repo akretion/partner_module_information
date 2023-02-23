@@ -17,9 +17,7 @@ class PullRequest(models.Model):
     date_open = fields.Datetime(string="Opening Date")
     date_updated = fields.Datetime(string="Date of Last Update")
     date_closed = fields.Datetime(string="Date of close")
-    module_ids = fields.One2many(
-        "module.information", "module_id", string="Modules Concerned"
-    )
+    module_ids = fields.Many2many("module.information", string="Modules Concerned")
     version_id = fields.Many2one("odoo.version")
     reviewer_ids = fields.Many2many("res.users")
     reviewer_count = fields.Integer(compute="_compute_reviewer")
@@ -53,9 +51,8 @@ class PullRequest(models.Model):
         matchs = re.findall(r"\+{3,5} b.*", response.text)
         module_ids = []
         for line in matchs:
-            # regex sur le path, get first /module/
+            # regex get first /module/
             module_name = re.search(r"(?<=/)(\w*)(?=/)", line)
-            # _logger.info("MODULE NAME: %s", module_name.group(0))
             if not module_name:
                 continue
             module_name = module_name.group(0)
@@ -113,17 +110,8 @@ class PullRequest(models.Model):
                     }
                 )
             pr_obj = self.search([("title", "=", pr["title"])])
-            _logger.info(
-                "\n >>> MODULE AVANT CREATE: %s, obj: %s\n vals: %s",
-                pr["title"],
-                pr_obj,
-                vals,
-            )
-
             if pr_obj:
                 pr_obj.ensure_one()
                 pr_obj.write(vals)
-                _logger.info("WRITE vals %s", vals)
             else:
                 pr_obj.create(vals)
-                _logger.info("CREATE vals %s", vals)

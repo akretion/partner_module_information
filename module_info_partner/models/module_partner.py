@@ -20,7 +20,7 @@ class ModulePartner(models.Model):
         return {
             "technical_name": module_info.get("name"),
             "name": module_info.get("shortdesc"),
-            "description_html": module_info.get("description"),
+            "description_rst": module_info.get("description"),
             "authors": module_info.get("author"),
             # ajouter le champs partner_id si iscustom
         }
