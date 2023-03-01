@@ -36,12 +36,13 @@ class PullRequest(models.Model):
         repos = self.env["module.repo"].search([])
         for repo in repos:
             if repo.modules_ids:
-                url = f"https://api.github.com/repos/{repo.organization}/{repo.name}/pulls"
+                url = f"https://api.github.com/repos/{repo.organization}/{repo.name}/pulls?state=all"
                 self.with_delay(
-                    max_retries=2, description=f"import PR infos for repo {repo.name}"
-                ).import_pr(url, repo)
+                    max_retries=2,
+                    description=f"import PR infos for repo {repo.organization}/{repo.name}",
+                )._import_pr(url, repo)
 
-    def get_module_from_pr(self, url, modules):
+    def _get_module_from_pr(self, url, modules):
         git_token = (
             self.env["ir.config_parameter"]
             .sudo()
@@ -62,7 +63,7 @@ class PullRequest(models.Model):
         _logger.info("MODULE TROUVE: %s", module_ids)
         return module_ids
 
-    def import_pr(self, url, repo):
+    def _import_pr(self, url, repo):
         git_token = (
             self.env["ir.config_parameter"]
             .sudo()
@@ -79,39 +80,55 @@ class PullRequest(models.Model):
         for pr in prs:
             if not odoo_version_dct.get(pr["base"]["ref"][:4], False):
                 continue
-            vals = {
-                "title": pr["title"],
-                "repo_id": repo[0].id,
-                "date_open": datetime.strptime(
-                    pr["created_at"], "%Y-%m-%dT%H:%M:%SZ"
-                ).strftime("%Y-%m-%d %H:%M:%S"),
-                "module_ids": [
-                    (6, 0, self.get_module_from_pr(pr["diff_url"], modules))
-                ],
-                "version_id": odoo_version_dct.get(pr["base"]["ref"][:4], ""),
-                "state": pr["state"],
-                "url": pr["html_url"],
-            }
 
-            if pr.get("updated_at", False):
-                vals.update(
-                    {
-                        "date_updated": datetime.strptime(
-                            pr["updated_at"], "%Y-%m-%dT%H:%M:%SZ"
-                        ).strftime("%Y-%m-%d %H:%M:%S")
-                    }
-                )
+            self._create_or_update_pr(pr, repo, modules, odoo_version_dct)
+
+    def _create_or_update_pr(self, pr, repo, modules_info, odoo_version):
+        vals = {}
+        pr_obj = self.search(
+            [("title", "=", pr["title"]), ("repo_id", "=", repo[0].id)]
+        )
+        if pr_obj and pr_obj.state == "open":
+            # Closed PR has no update
+            # PR exist in bdd and is open
+
+            # ? tester si la date est plus récente avant de faire un update?
+            vals.update(
+                {
+                    "date_updated": datetime.strptime(
+                        pr["updated_at"], "%Y-%m-%dT%H:%M:%SZ"
+                    ).strftime("%Y-%m-%d %H:%M:%S")
+                }
+            )
             if pr.get("closed_at", False):
                 vals.update(
                     {
                         "date_closed": datetime.strptime(
                             pr["closed_at"], "%Y-%m-%dT%H:%M:%SZ"
-                        ).strftime("%Y-%m-%d %H:%M:%S")
+                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "state": pr["state"],
                     }
                 )
-            pr_obj = self.search([("title", "=", pr["title"])])
-            if pr_obj:
-                pr_obj.ensure_one()
-                pr_obj.write(vals)
-            else:
-                pr_obj.create(vals)
+            pr_obj.ensure_one()
+            _logger.info("MAJ MODULE: %s", vals)
+            pr_obj.write(vals)
+
+        elif not pr_obj:
+            # PR not exist in bdd
+            vals.update(
+                {
+                    "title": pr["title"],
+                    "repo_id": repo[0].id,
+                    "date_open": datetime.strptime(
+                        pr["created_at"], "%Y-%m-%dT%H:%M:%SZ"
+                    ).strftime("%Y-%m-%d %H:%M:%S"),
+                    "module_ids": [
+                        (6, 0, self._get_module_from_pr(pr["diff_url"], modules_info))
+                    ],
+                    "version_id": odoo_version.get(pr["base"]["ref"][:4], ""),
+                    "state": pr["state"],
+                    "url": pr["html_url"],
+                }
+            )
+            _logger.info("CREATION MODULE: %s", vals)
+            pr_obj.create(vals)

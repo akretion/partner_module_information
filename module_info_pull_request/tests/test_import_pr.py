@@ -20,5 +20,5 @@ class TestinfoImport(TransactionCase):
         with requests_mock.mock() as m:
 
             m.get(url, text=self.pr_diff)
-            res = self.env["pull.request"].get_module_from_pr(url, self.modules)
+            res = self.env["pull.request"]._get_module_from_pr(url, self.modules)
             self.assertEqual(len(res), 1)
