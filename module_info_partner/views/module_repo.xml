@@ -10,7 +10,7 @@
                 <field name="organization" />
                 <field name="name" />
                 <field name="url" />
-                <field name="modules_ids" />
+                <field name="module_ids" />
             </tree>
         </field>
     </record>
