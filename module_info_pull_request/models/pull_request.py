@@ -17,13 +17,16 @@ class PullRequest(models.Model):
     date_open = fields.Datetime(string="Opening Date")
     date_updated = fields.Datetime(string="Date of Last Update")
     date_closed = fields.Datetime(string="Date of close")
-    module_ids = fields.Many2many("module.information", string="Modules Concerned")
+    module_ids = fields.Many2many("module.information", string="Related Modules")
+    module_ids_nbr = fields.Integer(
+        compute="_compute_module_ids_nbr", string="# of Modules"
+    )
     version_id = fields.Many2one("odoo.version")
     reviewer_ids = fields.Many2many("res.users")
     reviewer_count = fields.Integer(compute="_compute_reviewer")
     state = fields.Char()
     url = fields.Char()
-    number = fields.Integer(index=True)
+    number = fields.Integer(index=True, string="Github number")
 
     _sql_constraints = [
         (
@@ -37,6 +40,11 @@ class PullRequest(models.Model):
     def _compute_reviewer(self):
         for record in self:
             record.reviewer_count = len(record.reviewer_ids)
+
+    @api.depends("module_ids")
+    def _compute_module_ids_nbr(self):
+        for record in self:
+            record.module_ids_nbr = len(record.module_ids)
 
     def _get_module_from_pr(self, url, modules):
         git_token = (
@@ -108,3 +116,15 @@ class PullRequest(models.Model):
             )
             _logger.info("CREATION MODULE: %s", vals)
             pr_obj.create(vals)
+
+    def action_view_module(self):
+        self.ensure_one()
+        modules = self.mapped("module_ids")
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "module_info_partner.module_information_action"
+        )
+        if len(modules) > 0:
+            action["domain"] = [("id", "in", modules.ids)]
+        else:
+            action = {"type": "ir.actions.act_window_close"}
+        return action

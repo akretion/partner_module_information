@@ -25,6 +25,51 @@
         </field>
     </record>
 
+
+    <record id="pull_request_form_view" model="ir.ui.view">
+        <field name="name">pull.request.form.view</field>
+        <field name="model">pull.request</field>
+        <field name="arch" type="xml">
+            <form string="Pull Request">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_module"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-globe icon"
+                        >
+                            <field
+                                name="module_ids_nbr"
+                                widget="statinfo"
+                                string="Modules"
+                            />
+                        </button>
+                    </div>
+                    <group name="pr_head">
+                        <group>
+                            <field name="title" />
+                            <field name="repo_id" />
+                            <field name="date_open" />
+                            <field name="date_updated" />
+                            <field name="date_closed" />
+                        </group>
+                        <group>
+                            <field name="state" />
+                            <field name="version_id" />
+                            <field name="url" />
+                            <field name="number" />
+                        </group>
+                    </group>
+                    <group name="pr_info">
+                        <field name="reviewer_count" />
+                        <field name="reviewer_ids" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="pull_request_action" model="ir.actions.act_window">
         <field name="name">Pull Request</field>
         <field name="type">ir.actions.act_window</field>
