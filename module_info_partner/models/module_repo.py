@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ModuleRepo(models.Model):
@@ -12,3 +12,11 @@ class ModuleRepo(models.Model):
     module_ids = fields.One2many(
         "module.information", "repo_id", string="Module information"
     )
+    module_ids_nbr = fields.Integer(
+        compute="_compute_module_ids_nbr", string="# of Modules"
+    )
+
+    @api.depends("module_ids")
+    def _compute_module_ids_nbr(self):
+        for record in self:
+            record.module_ids_nbr = len(record.module_ids)

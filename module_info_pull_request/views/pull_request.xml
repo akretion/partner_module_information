@@ -32,20 +32,6 @@
         <field name="arch" type="xml">
             <form string="Pull Request">
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button
-                            name="action_view_module"
-                            type="object"
-                            class="oe_stat_button"
-                            icon="fa-globe icon"
-                        >
-                            <field
-                                name="module_ids_nbr"
-                                widget="statinfo"
-                                string="Modules"
-                            />
-                        </button>
-                    </div>
                     <group name="pr_head">
                         <group>
                             <field name="title" />
@@ -62,6 +48,7 @@
                         </group>
                     </group>
                     <group name="pr_info">
+                        <field name="module_ids" />
                         <field name="reviewer_count" />
                         <field name="reviewer_ids" />
                     </group>

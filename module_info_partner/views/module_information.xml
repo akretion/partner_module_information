@@ -38,29 +38,31 @@
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <form string="Module Information">
-                <group name="general_info">
-                    <field name="technical_name" />
-                    <field name="name" />
-                    <field name="authors" />
-                    <field name="repo_id" />
-                </group>
-                <notebook>
-                    <page string="Versions And modules">
-                        <separator string="Available Versions" />
-                        <field name="available_version_ids" />
-                        <separator string="Work in Progress Versions" />
-                        <field name="wip_version_ids" />
-                        <separator string="Equivalent Modules" />
-                        <field name="equivalent_module_ids" />
-                        <separator string="Alternative Modules" />
-                        <field name="alternative_module_ids" />
-                    </page>
-                    <page string="Full description">
-                        <group>
-                            <field name="short_description" />
-                        </group>
-                    </page>
-                </notebook>
+                <sheet>
+                    <group name="general_info">
+                        <field name="technical_name" />
+                        <field name="name" />
+                        <field name="authors" />
+                        <field name="repo_id" />
+                    </group>
+                    <notebook>
+                        <page string="Versions And modules">
+                            <separator string="Available Versions" />
+                            <field name="available_version_ids" />
+                            <separator string="Work in Progress Versions" />
+                            <field name="wip_version_ids" />
+                            <separator string="Equivalent Modules" />
+                            <field name="equivalent_module_ids" />
+                            <separator string="Alternative Modules" />
+                            <field name="alternative_module_ids" />
+                        </page>
+                        <page string="Full description">
+                            <group>
+                                <field name="short_description" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
             </form>
         </field>
     </record>

@@ -13,6 +13,7 @@
         "views/pull_request.xml",
         "security/ir.model.access.csv",
         "views/module_information.xml",
+        "views/module_repo.xml",
     ],
     "installable": True,
     "external_dependencies": {"python": ["pyyaml"]},

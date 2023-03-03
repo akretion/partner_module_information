@@ -72,3 +72,19 @@ class ModuleRepo(models.Model):
             repo.date_last_updated = datetime.strptime(
                 max_updated, "%Y-%m-%dT%H:%M:%SZ"
             ).strftime("%Y-%m-%d")
+
+    def action_view_module(self):
+        self.ensure_one()
+        modules = self.mapped("module_ids")
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "module_info_partner.module_information_action"
+        )
+        if len(modules) > 0:
+            action["domain"] = [("id", "in", modules.ids)]
+        else:
+            action = {"type": "ir.actions.act_window_close"}
+        return action
+
+    def get_pr_state(self):
+        self.import_pr()
+        return True

@@ -9,13 +9,18 @@
             ref="module_info_partner.module_information_form_view"
         />
         <field name="arch" type="xml">
-            <xpath expr="//notebook" position="inside">
-                <page string="Pull Request">
-                    <group>
-                        <field name="pr_ids" />
-                    </group>
-                </page>
-            </xpath>
+        <group position="before">
+            <div class="oe_button_box" name="button_box">
+                <button
+                        name="action_view_pr"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-globe icon"
+                    >
+                    <field name="pr_ids_nbr" widget="statinfo" string="PRs" />
+                </button>
+            </div>
+        </group>
         </field>
     </record>
 
