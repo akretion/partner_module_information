@@ -17,6 +17,11 @@
             <search string="Module Information">
                 <field name="technical_name" />
                 <field name="name" />
+                <field
+                    name="module_partner_ids"
+                    string="Project"
+                    filter_domain="[('module_partner_ids.partner_id.name', 'ilike', self)]"
+                />
             </search>
         </field>
     </record>
@@ -27,7 +32,6 @@
         <field name="arch" type="xml">
             <tree string="Module Information">
                 <field name="technical_name" />
-                <field name="name" />
                 <field name="repo_id" />
             </tree>
         </field>
@@ -67,11 +71,29 @@
         </field>
     </record>
 
+    <!-- <record id="module_information_kanban" model="ir.ui.view">
+            <field name="name">module.information.kanban</field>
+            <field name="model">module.information</field>
+            <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <field name="repo_id"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+            </field>
+    </record> -->
+
+
+
     <record id="module_information_action" model="ir.actions.act_window">
         <field name="name">Module Information</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">module.information</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="search_view_id" ref="module_information_search_view" />
     </record>
 

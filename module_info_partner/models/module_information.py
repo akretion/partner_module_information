@@ -17,6 +17,7 @@ class ModuleInformation(models.Model):
     partner_id = fields.Many2one(
         "res.partner", index=True, string="Partner's Custom Module"
     )
+    module_partner_ids = fields.One2many("module.partner", "module_id")
     module_version_ids = fields.One2many(
         "module.version", "module_id", string="Module Versions"
     )

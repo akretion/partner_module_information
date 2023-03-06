@@ -24,4 +24,18 @@
         </field>
     </record>
 
+    <record id="module_info_pull_request_tree_view" model="ir.ui.view">
+        <field name="name">module.information.tree.view</field>
+        <field name="model">module.information</field>
+        <field
+            name="inherit_id"
+            ref="module_info_partner.module_information_tree_view"
+        />
+        <field name="arch" type="xml">
+            <field name="technical_name" position="after">
+                <field name="pr_ids_nbr" string="Openned PR" />
+            </field>
+        </field>
+    </record>
+
 </odoo>
