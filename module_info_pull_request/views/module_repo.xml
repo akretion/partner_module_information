@@ -23,7 +23,7 @@
                             icon="fa-globe icon"
                         >
                             <field
-                                name="module_ids_nbr"
+                                name="module_nbr"
                                 widget="statinfo"
                                 string="Modules"
                             />

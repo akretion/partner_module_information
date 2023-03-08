@@ -16,10 +16,13 @@ class ModuleVersion(models.Model):
         help="URL of the ongoing pull request for the module migration"
     )
 
-    _sql_constraints = [
-        (
-            "module_version_uniq",
-            "unique(module_id, version_id)",
-            "Not possible to have twice the same module for the same version!",
-        )
-    ]
+    # ne fonctionne pas pour les modules ayant le meme nom
+    # et la meme version mais sur 2 repo different
+    #
+    # _sql_constraints = [
+    #     (
+    #         "module_version_uniq",
+    #         "unique(module_id, version_id)",
+    #         "Not possible to have twice the same module for the same version!",
+    #     )
+    # ]

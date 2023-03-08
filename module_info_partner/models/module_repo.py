@@ -12,11 +12,17 @@ class ModuleRepo(models.Model):
     module_ids = fields.One2many(
         "module.information", "repo_id", string="Module information"
     )
-    module_ids_nbr = fields.Integer(
-        compute="_compute_module_ids_nbr", string="# of Modules"
-    )
+    module_nbr = fields.Integer(compute="_compute_module_nbr", string="# of Modules")
+
+    _sql_constraints = [
+        (
+            "uniq_orga_repo",
+            "unique(name, organization)",
+            "the pair repo name and organization must be unique",
+        )
+    ]
 
     @api.depends("module_ids")
-    def _compute_module_ids_nbr(self):
+    def _compute_module_nbr(self):
         for record in self:
-            record.module_ids_nbr = len(record.module_ids)
+            record.module_nbr = len(record.module_ids)

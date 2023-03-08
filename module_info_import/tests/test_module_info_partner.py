@@ -1,16 +1,16 @@
 import requests_mock
 import yaml
-from mock import patch
 
 from odoo.tests import TransactionCase
 
 
-@patch("odoo.addons.module_info_import.models.module_information.VERSIONS", ["14.0"])
 class TestinfoImport(TransactionCase):
     def setUp(self):
         super().setUp()
         with open("tests/data/module_list_14.yaml", "r") as f:
             self.modules_yaml = f.read()
+        self.env["odoo.version"].search([]).unlink()
+        self.env["odoo.version"].create({"version": "14.0"})
 
     def test_modules_import(self):
         with requests_mock.mock() as m:
@@ -47,7 +47,6 @@ class TestinfoImport(TransactionCase):
                     "odoo-module-tracker/gh-pages/14.0.yml",
                     text=self.modules_yaml,
                 )
-
                 self.env["module.information"].synchronize_module()
                 module = self.env["module.information"].search(
                     [("technical_name", "=", "single_module_test")]

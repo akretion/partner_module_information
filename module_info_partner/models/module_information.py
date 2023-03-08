@@ -61,7 +61,7 @@ class ModuleInformation(models.Model):
             "uniq_technical_name",
             "unique(technical_name, partner_id)",
             "the pair technical_name, partner_id must be unique",
-        ),
+        )
     ]
 
     @api.depends(

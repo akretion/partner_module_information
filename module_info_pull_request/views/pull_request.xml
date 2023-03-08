@@ -57,6 +57,16 @@
         </field>
     </record>
 
+    <record id="pull_request_search_view" model="ir.ui.view">
+        <field name="name">pull.request.search.view</field>
+        <field name="model">pull.request</field>
+        <field name="arch" type="xml">
+            <search string="Related Modules">
+                <field name="module_ids" />
+            </search>
+        </field>
+    </record>
+
     <record id="pull_request_action" model="ir.actions.act_window">
         <field name="name">Pull Request</field>
         <field name="type">ir.actions.act_window</field>
