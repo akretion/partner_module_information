@@ -17,9 +17,9 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
-                            name="action_view_module"
-                            type="object"
-                            class="oe_stat_button"
+                            name="%(module_info_partner.module_information_action)d"
+                            type="action"
+                            context="{'search_default_repo_id': active_id}"
                             icon="fa-globe icon"
                         >
                             <field

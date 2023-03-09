@@ -38,4 +38,21 @@
         </field>
     </record>
 
+    <record id="module_info_pull_request_search_view" model="ir.ui.view">
+        <field name="name">module.information.search.view</field>
+        <field name="model">module.information</field>
+        <field name="arch" type="xml">
+            <search string="Repo">
+                <field name="repo_id" />
+            </search>
+        </field>
+    </record>
+
+    <record
+        id="module_info_partner.module_information_action"
+        model="ir.actions.act_window"
+    >
+        <field name="search_view_id" ref="module_info_pull_request_search_view" />
+    </record>
+
 </odoo>
