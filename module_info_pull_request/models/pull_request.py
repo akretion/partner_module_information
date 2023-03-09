@@ -85,7 +85,7 @@ class PullRequest(models.Model):
                     }
                 )
 
-            _logger.info("MAJ MODULE: %s", vals)
+            # _logger.info("MAJ MODULE: %s", vals)
             pr_obj.write(vals)
 
         elif not pr_obj and pr["state"] == "open":
@@ -106,5 +106,5 @@ class PullRequest(models.Model):
                     "url": pr["html_url"],
                 }
             )
-            _logger.info("CREATION MODULE: %s", vals)
+            # _logger.info("CREATION MODULE: %s", vals)
             pr_obj.create(vals)

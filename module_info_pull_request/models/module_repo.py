@@ -13,10 +13,7 @@ _logger = logging.getLogger(__name__)
 class ModuleRepo(models.Model):
     _inherit = "module.repo"
 
-    # updated_at = fields.Datetime(string="Last Update")
-    date_last_updated = fields.Datetime(
-        string="Last Update date", default="2023-01-01"
-    )  # default=date_utils.json_default
+    date_last_updated = fields.Datetime(string="Last Update date")
 
     def cron_import_pr(self):
         repos = self.search([])
@@ -38,40 +35,77 @@ class ModuleRepo(models.Model):
         }
         for repo in self:
             modules = {m.technical_name: m.id for m in repo.module_ids}
-            last_updated = repo.date_last_updated.strftime("%Y-%m-%d")
-            url = (
-                "https://api.github.com/search/issues?q=repo:"
-                f"{repo.organization}/{repo.name}+is:pr+updated:%3E="
-                f"{last_updated}&per_page=100"
-            )
-            response = requests.get(
-                url, headers={"authorization": f"Bearer {git_token}"}
-            )
-            # _logger.info(">>>>> PULL url: %s \n res = %s", url, response.json())
+            if repo.date_last_updated:
+                # call api search, sort by date desc
+                # stop pagination when date correspond to date_last_updated
+                page = 1
+                prs = []
+                while True:
+                    url = (
+                        f"https://api.github.com/repos/{repo.organization}"
+                        f"/{repo.name}/pulls?state=all&per_page=10&page={page}"
+                        "&sort=updated&direction=desc"
+                    )
+                    response = requests.get(
+                        url, headers={"authorization": f"Bearer {git_token}"}
+                    )
 
-            prs = response.json()["items"]
-            if not prs:
-                # no PR to update
-                continue
-            # _logger.info(">>>>> PULL TOTAL COUNT = %s", response.json()["total_count"])
+                    _logger.info(
+                        "\n>>>>ALL PULL (update), url: %s \n len: %s \
+                            \n date: %s \n lastupdate: %s"
+                        % (
+                            url,
+                            len(response.json()),
+                            response.json()[-1]["updated_at"],
+                            repo.date_last_updated,
+                        )
+                    )
+                    if len(response.json()):
+                        prs.extend(response.json())
+                        if (
+                            datetime.strptime(
+                                response.json()[-1]["updated_at"], "%Y-%m-%dT%H:%M:%SZ"
+                            )
+                            < repo.date_last_updated
+                        ):
+                            break
+                    page += 1
+            else:
+                # Init of PR's repo
+                # Call api pulls to get all openned pr
+                page = 1
+                result = 1
+                prs = []
+                while result:
+                    url = (
+                        f"https://api.github.com/repos/{repo.organization}"
+                        f"/{repo.name}/pulls?per_page=40&page={page}"
+                    )
+                    response = requests.get(
+                        url, headers={"authorization": f"Bearer {git_token}"}
+                    )
+                    if len(response.json()):
+                        prs.extend(response.json())
+                    result = len(response.json())
+                    page += 1
+                    _logger.info(
+                        "\n>>>>OPENED PULLS \n url: %s \n len: %s" % (url, len(prs))
+                    )
 
-            max_updated = prs[0]["updated_at"]
+            _logger.info("\n>>>> PRS size: %s", len(prs))
+            if prs:
+                max_updated = prs[0]["updated_at"]
             for pr in prs:
-                response = requests.get(
-                    pr["pull_request"]["url"],
-                    headers={"authorization": f"Bearer {git_token}"},
-                )
-                _logger.info("\n >>>>> REST GET PULL duration: %s", response.elapsed)
-                pull = response.json()
-                max_updated = max(pr["updated_at"], max_updated)
-                if not odoo_version_dct.get(pull["base"]["ref"][:4], False):
+                if not odoo_version_dct.get(pr["base"]["ref"][:4], False):
                     continue
                 self.env["pull.request"].create_or_update_pr(
-                    pull, repo, modules, odoo_version_dct
+                    pr, repo, modules, odoo_version_dct
                 )
-            repo.date_last_updated = datetime.strptime(
-                max_updated, "%Y-%m-%dT%H:%M:%SZ"
-            ).strftime("%Y-%m-%d")
+                max_updated = max(pr["updated_at"], max_updated)
+            if prs:
+                repo.date_last_updated = datetime.strptime(
+                    max_updated, "%Y-%m-%dT%H:%M:%SZ"
+                ).strftime("%Y-%m-%d")
 
     def action_view_module(self):
         self.ensure_one()
