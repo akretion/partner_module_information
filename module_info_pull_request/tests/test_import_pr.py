@@ -1,4 +1,5 @@
 import logging
+import os
 
 import requests_mock
 
@@ -11,8 +12,8 @@ class TestinfoImport(TransactionCase):
     def setUp(self):
         super().setUp()
         self.modules = {"sale_import_delivery_carrier": 1}
-
-        with open("tests/data/pr.diff", "r") as f:
+        data_dir = os.path.join(os.path.dirname(__file__), "data", "pr.diff")
+        with open(data_dir, "r") as f:
             self.pr_diff = f.read()
 
     def test_module_from_pr(self):

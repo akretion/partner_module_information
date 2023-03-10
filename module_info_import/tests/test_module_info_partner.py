@@ -1,3 +1,5 @@
+import os
+
 import requests_mock
 import yaml
 
@@ -7,10 +9,13 @@ from odoo.tests import TransactionCase
 class TestinfoImport(TransactionCase):
     def setUp(self):
         super().setUp()
-        with open("tests/data/module_list_14.yaml", "r") as f:
+        data_dir = os.path.join(
+            os.path.dirname(__file__), "data", "module_list_14.yaml"
+        )
+        with open(data_dir, "r") as f:
             self.modules_yaml = f.read()
         self.env["odoo.version"].search([]).unlink()
-        self.env["odoo.version"].create({"version": "14.0"})
+        self.env["odoo.version"].create({"name": "14.0"})
 
     def test_modules_import(self):
         with requests_mock.mock() as m:
@@ -39,7 +44,12 @@ class TestinfoImport(TransactionCase):
             )
 
     def test_modules_import_duplicate(self):
-        with open("tests/data/module_list_14_duplicate.yaml", "r") as f:
+
+        data_dir = os.path.join(
+            os.path.dirname(__file__), "data", "module_list_14_duplicate.yaml"
+        )
+
+        with open(data_dir, "r") as f:
             self.modules_yaml = f.read()
             with requests_mock.mock() as m:
                 m.get(

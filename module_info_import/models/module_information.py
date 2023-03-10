@@ -28,7 +28,7 @@ class ModuleInformation(models.Model):
     def synchronize_module(self):
         versions = self.env["odoo.version"].search([])
         for version in versions:
-            data = self.get_module_info(version.version)
+            data = self.get_module_info(version.name)
             for orga, repos in data.items():
                 for repo, modules in repos.items():
                     for module in modules:
@@ -36,11 +36,7 @@ class ModuleInformation(models.Model):
 
     @api.model
     def _update_or_create_modules(self, version, orga_name, repo_name, module):
-        # odoo_version_dct = {
-        #     v.version: v.id for v in self.env["odoo.version"].search([])
-        # }
         repo = self._get_or_create_repo(orga_name, repo_name)
-        # version_id = odoo_version_dct.get(version, "odoo_version_unknown")
         vals = {
             "repo_id": repo.id,
             "technical_name": module,
@@ -51,7 +47,7 @@ class ModuleInformation(models.Model):
             [("technical_name", "=", module), ("partner_id", "=", False)]
         )
         if module:
-            if module._should_update_module(version.version, orga_name):
+            if module._should_update_module(version.name, orga_name):
                 module.write(vals)
             module._add_available_version(version)
         else:
@@ -75,9 +71,10 @@ class ModuleInformation(models.Model):
         module_version = self.module_version_ids.filtered(
             lambda s: s.version_id == version
         )
-        if module_version and module_version.state != "done":
-            # In case that a version have been creating from a pending PR
-            module_version.state = "done"
+        if module_version:
+            if module_version.state != "done":
+                # In case that a version have been creating from a pending PR
+                module_version.state = "done"
         else:
             self.env["module.version"].create(
                 {
@@ -92,7 +89,7 @@ class ModuleInformation(models.Model):
         self.ensure_one()
         orga_priority = {"oca": 100, "akretion": 50}
         return max(
-            [float(v) for v in self.mapped("available_version_ids.version")]
+            [float(v) for v in self.mapped("available_version_ids.name")]
         ) <= float(version) and orga_priority.get(
             self.repo_id.organization, 0
         ) <= orga_priority.get(
