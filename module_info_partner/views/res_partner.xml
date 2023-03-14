@@ -45,15 +45,21 @@
                                     <field name="name" />
                                 </div>
                                 <div class="col-12 ">
-                                    <span>Current PR: <t
-                                            t-esc="record.current_pr_nbr.value"
-                                        /></span>
+                                    <a name="get_action_pr_tree_current" type="object">
+                                        <span>Current PR: <t
+                                                t-esc="record.current_pr_nbr.value"
+                                            /></span>
+                                    </a>
                                 </div>
                                 <div class="col-12">
-                                    <span>Higher version PR: <t
-                                            t-esc="record.higher_pr_nbr.value"
-                                        /></span>
-                                    <t t-if="record.higher_pr_nbr == 1"> Higher PR: </t>
+                                    <a name="get_action_pr_tree_higher" type="object">
+                                        <span>Higher version PR: <t
+                                                t-esc="record.higher_pr_nbr.value"
+                                            /></span>
+                                        <t
+                                            t-if="record.higher_pr_nbr == 1"
+                                        > Higher PR: </t>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +68,6 @@
             </kanban>
             </field>
     </record>
-
 
 
     <record id="module_partner_project_action" model="ir.actions.act_window">
@@ -90,12 +95,5 @@
         action="module_partner_project_action"
         sequence="0"
     />
-
-<!--
-    +creer une nouvelle action (nouveau menu)
-    ajout d'un filtre avec balise  domain (dans l'action)
-
-    figer sur vue kanban
-    definir la vue  -->
 
 </odoo>

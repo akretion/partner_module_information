@@ -39,7 +39,6 @@
         </field>
     </record>
 
-
     <record id="module_partner_action" model="ir.actions.act_window">
         <field name="name">Module Partner Information</field>
         <field name="type">ir.actions.act_window</field>

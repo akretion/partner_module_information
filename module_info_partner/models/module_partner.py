@@ -1,4 +1,8 @@
+import logging
+
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class ModulePartner(models.Model):
@@ -16,13 +20,14 @@ class ModulePartner(models.Model):
     )
 
     @api.model
-    def _prepare_module_info_vals(self, module_info):
+    def _prepare_module_info_vals(self, module_info, partner):
+
         return {
             "technical_name": module_info.get("name"),
             "name": module_info.get("shortdesc"),
             "description_rst": module_info.get("description"),
             "authors": module_info.get("author"),
-            # ajouter le champs partner_id si iscustom
+            "partner_id": partner.id,
         }
 
     @api.model
@@ -47,12 +52,15 @@ class ModulePartner(models.Model):
             ]
         )
         if not module:
-            module = module_info_obj.create(self._prepare_module_info_vals(module_info))
-        version = self.env["odoo.version"].search([("version", "=", version_num)])
+            # in this case, Module is custom
+            # create it with the customer partner_id
+            module = module_info_obj.create(
+                self._prepare_module_info_vals(module_info, partner)
+            )
+        version = self.env["odoo.version"].search([("name", "=", version_num)])
         partner_module_vals = self._prepare_partner_module_vals(
             partner, version, module, module_info
         )
-
         partner_module = self.search(
             [
                 ("partner_id", "=", partner.id),

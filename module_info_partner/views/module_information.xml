@@ -48,6 +48,7 @@
                         <field name="name" />
                         <field name="authors" />
                         <field name="repo_id" />
+                        <field name="partner_id" />
                     </group>
                     <notebook>
                         <page string="Versions And modules">
