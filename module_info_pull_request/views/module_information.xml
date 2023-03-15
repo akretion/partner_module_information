@@ -11,14 +11,14 @@
         <field name="arch" type="xml">
         <group position="before">
             <div class="oe_button_box" name="button_box">
-                    <button
-                        name="%(pull_request_action)d"
-                        type="action"
-                        context="{'search_default_module_ids': active_id}"
+            <button
+                        type="object"
+                        class="oe_stat_button"
+                        name="action_view_pull_request"
                         icon="fa-eye"
                     >
-                        <field name="pr_nbr" widget="statinfo" string="PRs" />
-                    </button>
+                    <field name="pr_nbr" string="PR" widget="statinfo" />
+            </button>
             </div>
         </group>
         </field>

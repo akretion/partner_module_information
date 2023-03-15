@@ -11,3 +11,13 @@ class ModuleInformation(models.Model):
     def _compute_pr_nbr(self):
         for record in self:
             record.pr_nbr = len(record.pr_ids)
+
+    def action_view_pull_request(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": ("Pull Request"),
+            "res_model": "pull.request",
+            "view_mode": "tree,form",
+            "domain": [("module_ids", "=", self.id)],
+        }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_module_partner_kanban" model="ir.ui.view">
+        <field name="name">module.partner.kanban</field>
+        <field name="model">res.partner</field>
+        <field eval="15" name="priority" />
+        <field name="inherit_id" ref="module_info_partner.view_module_partner_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='image_128']" position="after">
+                <field name="current_pr_nbr" />
+                <field name="higher_pr_nbr" />
+                <field name="module_nbr" />
+            </xpath>
+            <xpath expr="//div[@id='project_box']" position="inside">
+                <div>
+                    <a name="get_action_module_partner_tree" type="object">
+                        <span>Module installed: <t
+                                t-esc="record.module_nbr.value"
+                            /></span>
+                    </a>
+                </div>
+                <div>
+                    <a name="get_action_pr_tree_current" type="object">
+                        <span>Current PR: <t
+                                t-esc="record.current_pr_nbr.value"
+                            /></span>
+                    </a>
+                </div>
+                <div>
+                    <a name="get_action_pr_tree_higher" type="object">
+                        <span>Higher version PR: <t
+                                t-esc="record.higher_pr_nbr.value"
+                            /></span>
+                    </a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

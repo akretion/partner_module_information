@@ -30,9 +30,7 @@ class ModuleRepo(models.Model):
             .sudo()
             .get_param("module.info.pull.request.git.token")
         )
-        odoo_version_dct = {
-            v.version: v.id for v in self.env["odoo.version"].search([])
-        }
+        odoo_version_dct = {v.name: v.id for v in self.env["odoo.version"].search([])}
         for repo in self:
             modules = {m.technical_name: m.id for m in repo.module_ids}
             if repo.date_last_updated:
