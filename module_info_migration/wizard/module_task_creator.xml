@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="module_task_creator_form_view" model="ir.ui.view">
@@ -7,16 +7,21 @@
         <field name="arch" type="xml">
             <form string="Module Task Creator">
                 <group>
-                    <field name="project_id" domain="[('partner_id', '=', partner_id)]"/>
-                    <field name="partner_id" readonly="1"/>
+                    <field
+                        name="project_id"
+                        domain="[('partner_id', '=', partner_id)]"
+                    />
+                    <field name="partner_id" readonly="1" />
                 </group>
                 <footer>
-                    <button name="validate"
-                            string="Confirm" type="object"
-                            class="oe_highlight"/>
+                    <button
+                        name="validate"
+                        string="Confirm"
+                        type="object"
+                        class="oe_highlight"
+                    />
                     or
-                    <button string="Cancel" class="oe_link"
-                            special="cancel" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
                  </footer>
         </form>
         </field>

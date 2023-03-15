@@ -1,0 +1,31 @@
+from odoo import exceptions, fields, models
+
+
+class ModuleInformation(models.TransientModel):
+    _name = "module.task.creator"
+    _description = "Wizard to create task in mass from the module of a partner"
+
+    def _get_default_partner(self):
+        modules = self.env["module.partner"].browse(self.env.context.get("active_ids"))
+        partners = modules.mapped("partner_id")
+        if len(partners) > 1:
+            raise exceptions.UserError(
+                "You should create task for one partner at a time"
+            )
+        return partners
+
+    project_id = fields.Many2one("project.project", required=True)
+    partner_id = fields.Many2one(
+        "res.partner", required=True, default=_get_default_partner
+    )
+
+    def validate(self):
+        module_partner_ids = self.env.context.get("active_ids")
+        modules = self.env["module.partner"].browse(module_partner_ids)
+        for module in modules:
+            task_vals = {
+                "project_id": self.project_id.id,
+                "name": module.module_id.technical_name,
+                "module_partner_ids": [(6, 0, [module.id])],
+            }
+            self.env["project.task"].create(task_vals)
