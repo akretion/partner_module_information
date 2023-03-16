@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 class ModuleRepo(models.Model):
     _inherit = "module.repo"
 
-    date_last_updated = fields.Datetime(string="Last Update date")
+    date_last_updated = fields.Datetime(string="Last Update date", readonly=True)
 
     def cron_import_pr(self):
         repos = self.search([])

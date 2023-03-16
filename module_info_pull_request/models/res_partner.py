@@ -40,12 +40,7 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "res_model": "pull.request",
             "name": f"Current Pull Request for {self.name}",
-            "views": [
-                [
-                    self.env.ref("module_info_pull_request.pull_request_tree_view").id,
-                    "tree",
-                ]
-            ],
+            "views": [],
             "view_mode": "tree,form",
             "domain": [["id", "in", current_pr]],
         }
@@ -57,12 +52,7 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "res_model": "pull.request",
             "name": f"Higher version Pull Request for {self.name}",
-            "views": [
-                [
-                    self.env.ref("module_info_pull_request.pull_request_tree_view").id,
-                    "tree",
-                ]
-            ],
+            "views": [],
             "view_mode": "tree,form",
             "domain": [["id", "in", current_pr]],
         }
@@ -83,12 +73,7 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "res_model": "module.partner",
             "name": f"Modules used by {self.name}",
-            "views": [
-                [
-                    self.env.ref("module_info_partner.module_partner_tree_view").id,
-                    "tree",
-                ]
-            ],
+            "views": [],
             "view_mode": "tree,form",
             "domain": [["id", "in", modules]],
         }

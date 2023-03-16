@@ -12,18 +12,24 @@ _logger = logging.getLogger(__name__)
 class PullRequest(models.Model):
     _name = "pull.request"
 
-    title = fields.Char(index=True)
-    repo_id = fields.Many2one("module.repo", string="Host Repository", index=True)
-    date_open = fields.Datetime(string="Opening Date")
-    date_updated = fields.Datetime(string="Date of Last Update")
-    date_closed = fields.Datetime(string="Date of close")
-    module_ids = fields.Many2many("module.information", string="Related Modules")
-    version_id = fields.Many2one("odoo.version")
+    title = fields.Char(index=True, readonly=True)
+    repo_id = fields.Many2one(
+        "module.repo", string="Host Repository", index=True, readonly=True
+    )
+    date_open = fields.Datetime(string="Opening Date", readonly=True)
+    date_updated = fields.Datetime(string="Date of Last Update", readonly=True)
+    date_closed = fields.Datetime(string="Date of close", readonly=True)
+    module_ids = fields.Many2many(
+        "module.information", string="Related Modules", readonly=True
+    )
+    version_id = fields.Many2one("odoo.version", readonly=True, index=True)
     reviewer_ids = fields.Many2many("res.users")
-    reviewer_count = fields.Integer(compute="_compute_reviewer")
-    state = fields.Char()
-    url = fields.Char()
-    number = fields.Integer(index=True, string="Github number")
+    reviewer_count = fields.Integer(compute="_compute_reviewer", readonly=True)
+    state = fields.Char(index=True, readonly=True)
+    url = fields.Char(readonly=True)
+    number = fields.Integer(index=True, string="Github number", readonly=True)
+    author = fields.Char(index=True, readonly=True)
+    orga = fields.Char(index=True, readonly=True)
 
     _sql_constraints = [
         (
@@ -104,7 +110,16 @@ class PullRequest(models.Model):
                     "version_id": odoo_version.get(pr["base"]["ref"][:4], ""),
                     "state": pr["state"],
                     "url": pr["html_url"],
+                    "author": pr["user"]["login"],
+                    "orga": pr["head"]["user"]["login"],
                 }
             )
             # _logger.info("CREATION MODULE: %s", vals)
             pr_obj.create(vals)
+
+    def open_url(self):
+        return {
+            "type": "ir.actions.act_url",
+            "target": "new",
+            "url": self.url,
+        }

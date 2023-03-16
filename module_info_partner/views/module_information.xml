@@ -53,13 +53,22 @@
                     <notebook>
                         <page string="Versions And modules">
                             <separator string="Available Versions" />
-                            <field name="available_version_ids" />
+                            <field
+                                name="available_version_ids"
+                                widget="many2many_tags"
+                            />
                             <separator string="Work in Progress Versions" />
-                            <field name="wip_version_ids" />
+                            <field name="wip_version_ids" widget="many2many_tags" />
                             <separator string="Equivalent Modules" />
-                            <field name="equivalent_module_ids" />
+                            <field
+                                name="equivalent_module_ids"
+                                widget="many2many_tags"
+                            />
                             <separator string="Alternative Modules" />
-                            <field name="alternative_module_ids" />
+                            <field
+                                name="alternative_module_ids"
+                                widget="many2many_tags"
+                            />
                         </page>
                         <page string="Full description">
                             <group>

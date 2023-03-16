@@ -13,13 +13,15 @@ class ModuleInformation(models.Model):
         help="Edit this field to store complementary information about the " "module"
     )
     authors = fields.Char(readonly=True, index=True)
-    repo_id = fields.Many2one("module.repo", index=True, string="Host Repository")
-    partner_id = fields.Many2one(
-        "res.partner", index=True, string="Partner's Custom Module"
+    repo_id = fields.Many2one(
+        "module.repo", readonly=True, index=True, string="Host Repository"
     )
-    module_partner_ids = fields.One2many("module.partner", "module_id")
+    partner_id = fields.Many2one(
+        "res.partner", index=True, string="Partner's Custom Module", readonly=True
+    )
+    module_partner_ids = fields.One2many("module.partner", "module_id", readonly=True)
     module_version_ids = fields.One2many(
-        "module.version", "module_id", string="Module Versions"
+        "module.version", "module_id", string="Module Versions", readonly=True
     )
     available_version_ids = fields.Many2many(
         "odoo.version",

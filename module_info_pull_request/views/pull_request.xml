@@ -14,13 +14,21 @@
             <tree string="Pull Request">
                 <field name="title" />
                 <field name="repo_id" />
+                <field name="module_ids" widget="many2many_tags" />
+                <field name="orga" />
+                <field name="author" />
                 <field name="date_open" />
                 <field name="date_updated" />
                 <field name="date_closed" />
                 <field name="version_id" />
                 <field name="state" />
-                <field name="url" />
-                <field name="reviewer_count" />
+                <field name="reviewer_ids" widget="many2many_tags" />
+                <button
+                    name="open_url"
+                    type="object"
+                    string="Open"
+                    icon="fa-arrow-right"
+                />
             </tree>
         </field>
     </record>
@@ -36,6 +44,8 @@
                         <group>
                             <field name="title" />
                             <field name="repo_id" />
+                            <field name="orga" />
+                            <field name="author" />
                             <field name="date_open" />
                             <field name="date_updated" />
                             <field name="date_closed" />
@@ -43,14 +53,13 @@
                         <group>
                             <field name="state" />
                             <field name="version_id" />
-                            <field name="url" />
+                            <field name="url" widget="url" />
                             <field name="number" />
                         </group>
                     </group>
                     <group name="pr_info">
-                        <field name="module_ids" />
-                        <field name="reviewer_count" />
-                        <field name="reviewer_ids" />
+                        <field name="module_ids" widget="many2many_tags" />
+                        <field name="reviewer_ids" widget="many2many_tags" />
                     </group>
                 </sheet>
             </form>
@@ -73,6 +82,7 @@
                     string="Closed PR"
                     domain="[('state', '=', 'closed')]"
                 />
+                <separator />
                 <filter
                     name="v14"
                     string="V14"
@@ -88,6 +98,23 @@
                     string="V16"
                     domain="[('version_id', '=', '16.0')]"
                 />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_repo"
+                        string="Repo"
+                        context="{'group_by': 'repo_id'}"
+                    />
+                    <filter
+                        name="group_by_orga"
+                        string="Organization"
+                        context="{'group_by': 'orga'}"
+                    />
+                    <filter
+                        name="group_by_author"
+                        string="Author"
+                        context="{'group_by': 'author'}"
+                    />
+                </group>
             </search>
         </field>
     </record>
