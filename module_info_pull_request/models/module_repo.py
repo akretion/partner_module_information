@@ -47,17 +47,6 @@ class ModuleRepo(models.Model):
                     response = requests.get(
                         url, headers={"authorization": f"Bearer {git_token}"}
                     )
-
-                    _logger.info(
-                        "\n>>>>ALL PULL (update), url: %s \n len: %s \
-                            \n date: %s \n lastupdate: %s"
-                        % (
-                            url,
-                            len(response.json()),
-                            response.json()[-1]["updated_at"],
-                            repo.date_last_updated,
-                        )
-                    )
                     if len(response.json()):
                         prs.extend(response.json())
                         if (
@@ -86,11 +75,7 @@ class ModuleRepo(models.Model):
                         prs.extend(response.json())
                     result = len(response.json())
                     page += 1
-                    _logger.info(
-                        "\n>>>>OPENED PULLS \n url: %s \n len: %s" % (url, len(prs))
-                    )
 
-            _logger.info("\n>>>> PRS size: %s", len(prs))
             if prs:
                 max_updated = prs[0]["updated_at"]
             for pr in prs:

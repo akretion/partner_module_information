@@ -53,7 +53,7 @@ class PullRequest(models.Model):
         compute="_compute_project_id",
         store=True,
         readonly=False,
-        domain=_domain_project_id,
+        # domain=_domain_project_id,
     )
     task_id = fields.Many2one(
         "project.task",
@@ -75,6 +75,11 @@ class PullRequest(models.Model):
             "the pair pr number and repo must be unique",
         ),
     ]
+
+    @api.depends("task_id", "task_id.project_id")
+    def _compute_project_id(self):
+        for line in self.filtered(lambda line: not line.project_id):
+            line.project_id = line.task_id.project_id
 
     @api.depends("project_id")
     def _compute_task_id(self):
@@ -104,7 +109,6 @@ class PullRequest(models.Model):
             module_id = modules.get(module_name)
             if module_id and module_id not in module_ids:
                 module_ids.append(module_id)
-        # _logger.info("MODULE TROUVÉ: %s", module_ids)
         return module_ids
 
     def create_or_update_pr(self, pr, repo, modules_info, odoo_version):
@@ -132,8 +136,6 @@ class PullRequest(models.Model):
                         "state": pr["state"],
                     }
                 )
-
-            # _logger.info("MAJ MODULE: %s", vals)
             pr_obj.write(vals)
 
         elif not pr_obj and pr["state"] == "open":
@@ -156,7 +158,6 @@ class PullRequest(models.Model):
                     "orga": pr["head"]["user"]["login"],
                 }
             )
-            # _logger.info("CREATION MODULE: %s", vals)
             pr_obj.create(vals)
 
     def open_url(self):

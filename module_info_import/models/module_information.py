@@ -52,22 +52,22 @@ class ModuleInformation(models.Model):
             module._add_available_version(version)
         else:
             vals.update({"available_version_ids": [(4, version.id, 0)]})
-            _logger.info(">>>> CREATE MODULE : %s", vals)
             module = self.create(vals)
 
     @api.model
     def _get_or_create_repo(self, orga_name, repo_name):
-        repo_vals = {"organization": orga_name, "name": repo_name}
         repo = self.env["module.repo"].search(
             [("name", "=", repo_name), ("organization", "=", orga_name)]
         )
-        if not repo:
-            repo = self.env["module.repo"].create(repo_vals)
-        return repo
+        if repo:
+            return repo
+        else:
+            return self.env["module.repo"].create(
+                {"organization": orga_name, "name": repo_name}
+            )
 
     @api.model
     def _add_available_version(self, version):
-        # import pdb; pdb.set_trace()
         module_version = self.module_version_ids.filtered(
             lambda s: s.version_id == version
         )
