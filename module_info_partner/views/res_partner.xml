@@ -40,6 +40,16 @@
                                 <div style="font-weight:bold;">
                                     <field name="name" />
                                 </div>
+                                <div>
+                                    <a
+                                        name="get_action_module_information_tree"
+                                        type="object"
+                                    >
+                                        <span>Module installed: <t
+                                                t-esc="record.module_nbr.value"
+                                            /></span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </t>

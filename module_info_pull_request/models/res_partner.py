@@ -6,7 +6,6 @@ class ResPartner(models.Model):
 
     current_pr_nbr = fields.Integer(compute="_compute_current_pr_nbr")
     higher_pr_nbr = fields.Integer(compute="_compute_higher_pr_nbr")
-    module_nbr = fields.Integer(compute="_compute_module_nbr")
 
     def _get_domain_current_pr(self):
         return [
@@ -55,25 +54,4 @@ class ResPartner(models.Model):
             "views": [],
             "view_mode": "tree,form",
             "domain": [["id", "in", current_pr]],
-        }
-
-    def _get_domain_module(self):
-        return [("partner_id", "=", self.id)]
-
-    def _compute_module_nbr(self):
-        for record in self:
-            record.module_nbr = self.env["module.partner"].search_count(
-                record._get_domain_module()
-            )
-
-    def get_action_module_partner_tree(self):
-        modules = self.env["module.partner"].search(self._get_domain_module())
-        modules = modules.mapped("id")
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": "module.partner",
-            "name": f"Modules used by {self.name}",
-            "views": [],
-            "view_mode": "tree,form",
-            "domain": [["id", "in", modules]],
         }

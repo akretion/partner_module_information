@@ -14,13 +14,6 @@
             </xpath>
             <xpath expr="//div[@id='project_box']" position="inside">
                 <div>
-                    <a name="get_action_module_partner_tree" type="object">
-                        <span>Module installed: <t
-                                t-esc="record.module_nbr.value"
-                            /></span>
-                    </a>
-                </div>
-                <div>
                     <a name="get_action_pr_tree_current" type="object">
                         <span>Current PR: <t
                                 t-esc="record.current_pr_nbr.value"
