@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <menuitem id="module_info_menu_root" name="Partner Modules" sequence="20" />
+    <menuitem
+        id="module_info_menu_root"
+        name="Partner Modules"
+        sequence="20"
+        web_icon="module_info_partner,static/description/icon.png"
+    />
 
     <menuitem
         id="modules_information_main_menu"

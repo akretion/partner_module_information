@@ -10,25 +10,34 @@ class ModulePartner(models.Model):
     _description = "Modules used by partner"
 
     partner_id = fields.Many2one(
-        "res.partner", required=True, index=True, string="Partner"
+        "res.partner", required=True, index=True, string="Partner", ondelete="cascade"
     )
     version_id = fields.Many2one(
-        "odoo.version", string="Version", required=True, index=True
+        "odoo.version",
+        string="Version",
+        required=True,
+        index=True,
+        ondelete="cascade",
     )
     module_id = fields.Many2one(
-        "module.information", required=True, index=True, string="Module"
+        "module.information",
+        required=True,
+        index=True,
+        string="Module",
+        ondelete="cascade",
     )
 
     @api.model
     def _prepare_module_info_vals(self, module_info, partner):
-
-        return {
+        vals = {
             "technical_name": module_info.get("name"),
             "name": module_info.get("shortdesc"),
             "description_rst": module_info.get("description"),
             "authors": module_info.get("author"),
-            "partner_id": partner.id,
         }
+        if module_info["is_custom"]:
+            vals["partner_id"] = partner.id
+        return vals
 
     @api.model
     def _prepare_partner_module_vals(self, partner, version, module, module_info):
@@ -43,12 +52,12 @@ class ModulePartner(models.Model):
         tech_name = module_info.get("name")
         # check if module already exists
         module_info_obj = self.env["module.information"]
+
+        partner_id = partner.id if module_info["is_custom"] else False
         module = module_info_obj.search(
             [
                 ("technical_name", "=", tech_name),
-                "|",
-                ("partner_id", "=", False),
-                ("partner_id", "=", partner.id),
+                ("partner_id", "=", partner_id),
             ]
         )
         if not module:
