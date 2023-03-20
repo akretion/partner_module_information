@@ -20,8 +20,8 @@
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <search string="Module Information">
-                <field name="technical_name" />
                 <field name="name" />
+                <field name="short_desc" />
                 <field
                     name="module_partner_ids"
                     string="Project"
@@ -36,7 +36,7 @@
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <tree string="Module Information">
-                <field name="technical_name" />
+                <field name="name" />
                 <field name="repo_id" />
             </tree>
         </field>
@@ -49,8 +49,8 @@
             <form string="Module Information">
                 <sheet>
                     <group name="general_info">
-                        <field name="technical_name" />
                         <field name="name" />
+                        <field name="short_desc" />
                         <field name="authors" />
                         <field name="repo_id" />
                         <field name="partner_id" />
@@ -78,6 +78,7 @@
                         <page string="Full description">
                             <group>
                                 <field name="short_description" />
+                                <field name="description_rst" />
                             </group>
                         </page>
                     </notebook>

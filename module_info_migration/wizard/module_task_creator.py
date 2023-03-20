@@ -25,7 +25,7 @@ class ModuleInformation(models.TransientModel):
         for module in modules:
             task_vals = {
                 "project_id": self.project_id.id,
-                "name": module.module_id.technical_name,
+                "name": module.module_id.name,
                 "module_partner_ids": [(6, 0, [module.id])],
             }
             self.env["project.task"].create(task_vals)

@@ -30,7 +30,6 @@ class ModulePartner(models.Model):
     @api.model
     def _prepare_module_info_vals(self, module_info, partner):
         vals = {
-            "technical_name": module_info.get("name"),
             "name": module_info.get("shortdesc"),
             "description_rst": module_info.get("description"),
             "authors": module_info.get("author"),
@@ -49,14 +48,13 @@ class ModulePartner(models.Model):
 
     @api.model
     def update_or_create(self, partner, version_num, module_info):
-        tech_name = module_info.get("name")
         # check if module already exists
         module_info_obj = self.env["module.information"]
 
         partner_id = partner.id if module_info["is_custom"] else False
         module = module_info_obj.search(
             [
-                ("technical_name", "=", tech_name),
+                ("name", "=", module_info["name"]),
                 ("partner_id", "=", partner_id),
             ]
         )

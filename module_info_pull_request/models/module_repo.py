@@ -32,7 +32,7 @@ class ModuleRepo(models.Model):
         )
         odoo_version_dct = {v.name: v.id for v in self.env["odoo.version"].search([])}
         for repo in self:
-            modules = {m.technical_name: m.id for m in repo.module_ids}
+            modules = {m.name: m.id for m in repo.module_ids}
             if repo.date_last_updated:
                 # call api search, sort by date desc
                 # stop pagination when date correspond to date_last_updated

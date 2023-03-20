@@ -32,7 +32,7 @@
             ref="module_info_partner.module_information_tree_view"
         />
         <field name="arch" type="xml">
-            <field name="technical_name" position="after">
+            <field name="name" position="after">
                 <field name="pr_nbr" string="Openned PR" />
             </field>
         </field>

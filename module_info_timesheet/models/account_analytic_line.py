@@ -26,6 +26,5 @@ class AccountAnalyticLine(models.Model):
         for record in self:
             if record.pr_id:
                 record.name = (
-                    "Review PR"
-                    f"{','.join(record.pr_id.module_ids.mapped('technical_name'))}"
+                    "Review PR" f"{','.join(record.pr_id.module_ids.mapped('name'))}"
                 )

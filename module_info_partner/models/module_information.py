@@ -3,10 +3,10 @@ from odoo import api, fields, models
 
 class ModuleInformation(models.Model):
     _name = "module.information"
-    _rec_name = "technical_name"
+    _rec_name = "name"
     _description = "Module Information and availability"
 
-    technical_name = fields.Char(string="Technical Name", readonly=True, index=True)
+    short_desc = fields.Char(string="Human Name", readonly=True, index=True)
     name = fields.Char(readonly=True, index=True)
     description_rst = fields.Text(readonly=True)
     short_description = fields.Text(
@@ -60,9 +60,9 @@ class ModuleInformation(models.Model):
 
     _sql_constraints = [
         (
-            "uniq_technical_name",
-            "unique(technical_name, partner_id)",
-            "the pair technical_name, partner_id must be unique",
+            "uniq_name",
+            "unique(name, partner_id)",
+            "the pair name, partner_id must be unique",
         )
     ]
 

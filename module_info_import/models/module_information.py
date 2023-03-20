@@ -31,21 +31,24 @@ class ModuleInformation(models.Model):
             data = self.get_module_info(version.name)
             for orga, repos in data.items():
                 for repo, modules in repos.items():
-                    for module in modules:
-                        self._update_or_create_modules(version, orga, repo, module)
+                    for module_name, vals in modules.items():
+                        self._update_or_create_modules(
+                            version, orga, repo, module_name, vals
+                        )
 
     @api.model
-    def _update_or_create_modules(self, version, orga_name, repo_name, module):
+    def _update_or_create_modules(
+        self, version, orga_name, repo_name, module_name, vals
+    ):
         repo = self._get_or_create_repo(orga_name, repo_name)
         vals = {
             "repo_id": repo.id,
-            "technical_name": module,
-            # "description_rst":info["description"]
-            # # TODO add description in odoo-module-tracker
+            "name": module_name,
+            "description_rst": vals["readme"],
+            "short_desc": vals["name"],
+            "authors": vals["author"],
         }
-        module = self.search(
-            [("technical_name", "=", module), ("partner_id", "=", False)]
-        )
+        module = self.search([("name", "=", module_name), ("partner_id", "=", False)])
         if module:
             if module._should_update_module(version.name, orga_name):
                 module.write(vals)

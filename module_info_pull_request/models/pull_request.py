@@ -24,7 +24,7 @@ class PullRequest(models.Model):
     )
     version_id = fields.Many2one("odoo.version", readonly=True, index=True)
     reviewer_ids = fields.Many2many("res.users")
-    reviewer_count = fields.Integer(compute="_compute_reviewer", readonly=True)
+    reviewer_count = fields.Integer(compute="_compute_reviewer_count", readonly=True)
     state = fields.Char(index=True, readonly=True)
     url = fields.Char(readonly=True)
     number = fields.Integer(index=True, string="Github number", readonly=True)
@@ -41,7 +41,7 @@ class PullRequest(models.Model):
     ]
 
     @api.depends("reviewer_ids")
-    def _compute_reviewer(self):
+    def _compute_reviewer_count(self):
         for record in self:
             record.reviewer_count = len(record.reviewer_ids)
 

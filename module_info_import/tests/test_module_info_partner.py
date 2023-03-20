@@ -59,19 +59,19 @@ class TestinfoImport(TransactionCase):
                 )
                 self.env["module.information"].synchronize_module()
                 module = self.env["module.information"].search(
-                    [("technical_name", "=", "single_module_test")]
+                    [("name", "=", "single_module_test")]
                 )
                 # test module single is imported
                 self.assertEqual(module.repo_id.organization, "tiers")
                 # test module duplicate
                 module = self.env["module.information"].search(
-                    [("technical_name", "=", "duplicate_module_test1")]
+                    [("name", "=", "duplicate_module_test1")]
                 )
                 # check priority to OCA
                 self.assertEqual(module.repo_id.organization, "oca")
                 # test duplicate module diffrent order
                 module = self.env["module.information"].search(
-                    [("technical_name", "=", "duplicate_module_test2")]
+                    [("name", "=", "duplicate_module_test2")]
                 )
                 # check priority to OCA
                 self.assertEqual(module.repo_id.organization, "oca")
