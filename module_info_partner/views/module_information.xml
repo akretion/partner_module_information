@@ -21,7 +21,7 @@
         <field name="arch" type="xml">
             <search string="Module Information">
                 <field name="name" />
-                <field name="short_desc" />
+                <field name="shortdesc" />
                 <field
                     name="module_partner_ids"
                     string="Project"
@@ -50,7 +50,7 @@
                 <sheet>
                     <group name="general_info">
                         <field name="name" />
-                        <field name="short_desc" />
+                        <field name="shortdesc" />
                         <field name="authors" />
                         <field name="repo_id" />
                         <field name="partner_id" />
@@ -77,7 +77,7 @@
                         </page>
                         <page string="Full description">
                             <group>
-                                <field name="short_description" />
+                                <field name="internal_info" />
                                 <field name="description_rst" />
                             </group>
                         </page>

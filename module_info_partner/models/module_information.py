@@ -6,11 +6,11 @@ class ModuleInformation(models.Model):
     _rec_name = "name"
     _description = "Module Information and availability"
 
-    short_desc = fields.Char(string="Human Name", readonly=True, index=True)
+    shortdesc = fields.Char(string="Human Name", readonly=True, index=True)
     name = fields.Char(readonly=True, index=True)
     description_rst = fields.Text(readonly=True)
-    short_description = fields.Text(
-        help="Edit this field to store complementary information about the " "module"
+    internal_info = fields.Text(
+        help="Edit this field to store complementary information about the module"
     )
     authors = fields.Char(readonly=True, index=True)
     repo_id = fields.Many2one(

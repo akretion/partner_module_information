@@ -30,7 +30,8 @@ class ModulePartner(models.Model):
     @api.model
     def _prepare_module_info_vals(self, module_info, partner):
         vals = {
-            "name": module_info.get("shortdesc"),
+            "name": module_info.get("name"),
+            "shortdesc": module_info.get("shortdesc"),
             "description_rst": module_info.get("description"),
             "authors": module_info.get("author"),
         }
