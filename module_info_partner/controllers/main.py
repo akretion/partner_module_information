@@ -19,13 +19,10 @@ class ExternalModuleController(main.RestController):
 
     @classmethod
     def _get_partner_from_request(cls):
-        auth_api_key = getattr(request, "auth_api_key", None)
-        if auth_api_key:
-            key = (
-                request.env["auth.api.key"].sudo().search([("key", "=", auth_api_key)])
-            )
+        auth_api_key_id = getattr(request, "auth_api_key_id", None)
+        if auth_api_key_id:
             partner = request.env["res.partner"].search(
-                [("module_auth_api_key_id", "=", key.id)]
+                [("module_auth_api_key_id", "=", auth_api_key_id)]
             )
             if partner:
                 return partner
