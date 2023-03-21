@@ -27,6 +27,13 @@
                     string="Project"
                     filter_domain="[('module_partner_ids.partner_id.name', 'ilike', self)]"
                 />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_repo"
+                        string="Repo"
+                        context="{'group_by': 'repo_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>

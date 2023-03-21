@@ -116,6 +116,11 @@
                         string="Author"
                         context="{'group_by': 'author'}"
                     />
+                    <filter
+                        name="group_by_version"
+                        string="Version"
+                        context="{'group_by': 'version_id'}"
+                    />
                 </group>
             </search>
         </field>
