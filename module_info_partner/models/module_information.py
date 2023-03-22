@@ -9,8 +9,9 @@ class ModuleInformation(models.Model):
     shortdesc = fields.Char(string="Human Name", readonly=True, index=True)
     name = fields.Char(readonly=True, index=True)
     description_rst = fields.Text(readonly=True)
-    internal_info = fields.Text(
-        help="Edit this field to store complementary information about the module"
+    note = fields.Text(
+        string="Note",
+        help="Edit this field to store complementary information about the module",
     )
     authors = fields.Char(readonly=True, index=True)
     repo_id = fields.Many2one(

@@ -20,6 +20,13 @@
             <search string="Module Version Information">
                 <field name="module_id" />
                 <field name="version_id" />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_version"
+                        string="Version"
+                        context="{'group_by': 'version_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>

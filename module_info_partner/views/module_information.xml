@@ -64,6 +64,13 @@
                     </group>
                     <notebook>
                         <page string="Versions And modules">
+                            <field name="module_partner_ids">
+                                <tree default_order="version_id">
+                                    <field name="partner_id" />
+                                    <field name="version_id" />
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="Note interne" />
                             <separator string="Available Versions" />
                             <field
                                 name="available_version_ids"
@@ -84,7 +91,6 @@
                         </page>
                         <page string="Full description">
                             <group>
-                                <field name="internal_info" />
                                 <field name="description_rst" />
                             </group>
                         </page>

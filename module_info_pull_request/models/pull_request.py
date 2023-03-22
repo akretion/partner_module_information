@@ -31,6 +31,12 @@ class PullRequest(models.Model):
     author = fields.Char(index=True, readonly=True)
     orga = fields.Char(index=True, readonly=True)
     need_review = fields.Boolean(string="Review requested")
+    reviewer_ids_nbr = fields.Integer(
+        compute="_compute_reviewer_ids_nbr", readonly=True, store=True
+    )
+    author_user_id = fields.Many2one(
+        "res.users", compute="_compute_author_user_id", store=True
+    )
 
     _sql_constraints = [
         (
@@ -39,6 +45,22 @@ class PullRequest(models.Model):
             "the pair pr number and repo must be unique",
         ),
     ]
+
+    @api.depends("author")
+    def _compute_author_user_id(self):
+        for record in self:
+            record.author_user_id = (
+                self.env["res.users"]
+                .search(
+                    [("github_user", "=", record.author), ("github_user", "!=", False)]
+                )
+                .id
+            )
+
+    @api.depends("reviewer_ids")
+    def _compute_reviewer_ids_nbr(self):
+        for record in self:
+            record.reviewer_ids_nbr = len(record.reviewer_ids)
 
     @api.depends("reviewer_ids")
     def _compute_reviewer_count(self):
