@@ -11,6 +11,18 @@
 
 Repo for managing odoo modules
 
+This repo allow you to :
+
+- Synchronise module information with a list of community module https://github.com/akretion/odoo-module-tracker/blob/gh-pages/
+- Synchronise the PR state with github api
+- Push module's informations from remote Odoo
+- See in one kanban the PRs in current and higher version who can impact your projects
+- Attach a timesheet to a PR review to report your reviewer time
+- Follow migration goal for partner project (in progress)
+
+![partner_module](docs/images/partner_module.png)
+
+
 <!-- /!\ do not modify below this line -->
 
 <!-- prettier-ignore-start -->
