@@ -32,7 +32,7 @@ class ModulePartner(models.Model):
         vals = {
             "name": module_info.get("name"),
             "shortdesc": module_info.get("shortdesc"),
-            "description_rst": module_info.get("description"),
+            "description": module_info.get("description"),
             "authors": module_info.get("author"),
         }
         if module_info["is_custom"]:

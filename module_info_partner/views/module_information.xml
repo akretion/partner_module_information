@@ -91,7 +91,7 @@
                         </page>
                         <page string="Full description">
                             <group>
-                                <field name="description_rst" />
+                                <field name="description" />
                             </group>
                         </page>
                     </notebook>

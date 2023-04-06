@@ -44,9 +44,9 @@ class ModuleInformation(models.Model):
         vals = {
             "repo_id": repo.id,
             "name": module_name,
-            "description_rst": vals.get("readme", ""),
+            "description": vals["description"],
             "shortdesc": vals["name"],
-            "authors": vals.get("author", ""),
+            "authors": vals["author"],
         }
         module = self.search([("name", "=", module_name), ("partner_id", "=", False)])
         if module:
