@@ -44,7 +44,7 @@ class ModuleInformation(models.Model):
         vals = {
             "repo_id": repo.id,
             "name": module_name,
-            "description_rst": vals["readme"],
+            "description": vals["description"],
             "shortdesc": vals["name"],
             "authors": vals["author"],
         }

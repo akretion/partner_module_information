@@ -8,11 +8,11 @@ class ModuleInformation(models.Model):
 
     shortdesc = fields.Char(string="Human Name", readonly=True, index=True)
     name = fields.Char(readonly=True, index=True)
-    description_rst = fields.Text(readonly=True)
     note = fields.Text(
         string="Note",
         help="Edit this field to store complementary information about the module",
     )
+    description = fields.Html(readonly=True)
     authors = fields.Char(readonly=True, index=True)
     repo_id = fields.Many2one(
         "module.repo", readonly=True, index=True, string="Host Repository"
