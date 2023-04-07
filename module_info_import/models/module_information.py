@@ -90,6 +90,10 @@ class ModuleInformation(models.Model):
     @api.model
     def _should_update_module(self, version, orga):
         self.ensure_one()
+        # It means that the module was first created by a push from a partner instance
+        # we want to update it and avoid a crash in this case.
+        if not self.available_version_ids:
+            return True
         orga_priority = {"oca": 100, "akretion": 50}
         return max(
             [float(v) for v in self.mapped("available_version_ids.name")]
