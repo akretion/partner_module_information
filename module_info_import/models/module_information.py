@@ -21,6 +21,10 @@ class ModuleInformation(models.Model):
             f"/odoo-module-tracker/gh-pages/{version}.yml"
         )
         response = requests.get(url)
+        # not all odoo versions are present in the github yaml files we don't
+        # want the sync cron to fail if version is not managed.
+        if response.status_code != 200:
+            return {}
         return yaml.safe_load(response.text)
 
     # called by cron
