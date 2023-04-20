@@ -113,6 +113,7 @@ class PullRequest(models.Model):
                     }
                 )
             pr_obj.write(vals)
+            pr_obj._update_module_version()
 
         elif not pr_obj and pr["state"] == "open":
             # PR not exist in bdd
@@ -134,7 +135,53 @@ class PullRequest(models.Model):
                     "orga": pr["head"]["user"]["login"],
                 }
             )
-            pr_obj.create(vals)
+            pr_obj = pr_obj.create(vals)
+            pr_obj._update_module_version()
+
+    def _update_module_version(self):
+        # manage module version depending on PRs
+        # If there is a PR, then make sure we have at least a pending module version
+        # if a PR close, make sure to delete related pending version if not other PR
+        # for this module and this version.
+        self.ensure_one()
+        if self.state == "open":
+            for module in self.module_ids:
+                module_version = self.env["module.version"].search(
+                    [
+                        ("module_id", "=", module.id),
+                        ("version_id", "=", self.version_id.id),
+                    ]
+                )
+                if not module_version:
+                    self.env["module.version"].create(
+                        {
+                            "state": "pending",
+                            "module_id": module.id,
+                            "version_id": self.version_id.id,
+                        }
+                    )
+        else:
+            # PR is closed, if we have a pending module version, we should unlink it
+            # if there is no other PR
+            module_versions = self.env["module.version"].search(
+                [
+                    ("module_id", "=", self.module_ids.ids),
+                    ("version_id", "=", self.version_id.id),
+                    ("state", "=", "pending"),
+                ]
+            )
+            to_unlink = self.env["module.version"]
+            for module_version in module_versions:
+                other_pr = self.search(
+                    [
+                        ("module_ids", "=", module_version.module_id.id),
+                        ("version_id", "=", module_version.version_id.id),
+                        ("state", "=", "open"),
+                    ]
+                )
+                if not other_pr:
+                    to_unlink |= module_version
+            to_unlink.unlink()
 
     def open_url(self):
         return {
