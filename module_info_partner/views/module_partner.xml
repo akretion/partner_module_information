@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="module_partner_tree_view" model="ir.ui.view">
@@ -6,9 +6,9 @@
         <field name="model">module.partner</field>
         <field name="arch" type="xml">
             <tree string="Module Partner Information">
-                <field name="module_id"/>
-                <field name="partner_id"/>
-                <field name="version_id"/>
+                <field name="module_id" />
+                <field name="partner_id" />
+                <field name="version_id" />
             </tree>
         </field>
     </record>
@@ -18,12 +18,22 @@
         <field name="model">module.partner</field>
         <field name="arch" type="xml">
             <search string="Module Partner Information">
-                <field name="module_id"/>
-                <field name="partner_id"/>
-                <field name="version_id"/>
+                <field name="module_id" />
+                <field name="partner_id" />
+                <field name="version_id" />
                 <group expand="0" string="Group By">
-                    <filter string="Partner" name="partner" domain="[]" context="{'group_by':'partner_id'}"/>
-                    <filter string="Module" name="module" domain="[]" context="{'group_by':'module_id'}"/>
+                    <filter
+                        string="Partner"
+                        name="partner"
+                        domain="[]"
+                        context="{'group_by':'partner_id'}"
+                    />
+                    <filter
+                        string="Module"
+                        name="module"
+                        domain="[]"
+                        context="{'group_by':'module_id'}"
+                    />
                 </group>
             </search>
         </field>
@@ -33,15 +43,17 @@
         <field name="name">Module Partner Information</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">module.partner</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="module_partner_search_view"/>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="search_view_id" ref="module_partner_search_view" />
+
     </record>
 
-    <menuitem id="module_partner_menu"
+    <menuitem
+        id="module_partner_menu"
         name="Module Partner"
         parent="modules_information_main_menu"
         action="module_partner_action"
-        sequence="5"/>
+        sequence="5"
+    />
 
 </odoo>

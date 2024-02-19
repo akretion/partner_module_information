@@ -1,24 +1,43 @@
+import logging
 
-from odoo import models, fields, api
+from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class ModulePartner(models.Model):
     _name = "module.partner"
     _description = "Modules used by partner"
 
-    partner_id = fields.Many2one("res.partner", required=True, index=True, string="Partner")
+    partner_id = fields.Many2one(
+        "res.partner", required=True, index=True, string="Partner", ondelete="cascade"
+    )
     version_id = fields.Many2one(
-        "odoo.version", string="Version", required=True, index=True)
-    module_id = fields.Many2one("module.information", required=True, index=True, string="Module")
+        "odoo.version",
+        string="Version",
+        required=True,
+        index=True,
+        ondelete="cascade",
+    )
+    module_id = fields.Many2one(
+        "module.information",
+        required=True,
+        index=True,
+        string="Module",
+        ondelete="cascade",
+    )
 
     @api.model
-    def _prepare_module_info_vals(self, module_info):
-        return {
-            "technical_name": module_info.get("name"),
-            "name": module_info.get("shortdesc"),
-            "description_html": module_info.get("description"),
+    def _prepare_module_info_vals(self, module_info, partner):
+        vals = {
+            "name": module_info.get("name"),
+            "shortdesc": module_info.get("shortdesc"),
+            "description": module_info.get("description"),
             "authors": module_info.get("author"),
         }
+        if module_info["is_custom"]:
+            vals["partner_id"] = partner.id
+        return vals
 
     @api.model
     def _prepare_partner_module_vals(self, partner, version, module, module_info):
@@ -30,17 +49,26 @@ class ModulePartner(models.Model):
 
     @api.model
     def update_or_create(self, partner, version_num, module_info):
-        tech_name = module_info.get("name")
         # check if module already exists
         module_info_obj = self.env["module.information"]
-        module = module_info_obj.search([("technical_name", "=", tech_name)])
+
+        partner_id = partner.id if module_info["is_custom"] else False
+        module = module_info_obj.search(
+            [
+                ("name", "=", module_info["name"]),
+                ("partner_id", "=", partner_id),
+            ]
+        )
         if not module:
-            module = module_info_obj.create(self._prepare_module_info_vals(module_info))
-        version = self.env["odoo.version"].search([("version", "=", version_num)])
+            # in this case, Module is custom
+            # create it with the customer partner_id
+            module = module_info_obj.create(
+                self._prepare_module_info_vals(module_info, partner)
+            )
+        version = self.env["odoo.version"].search([("name", "=", version_num)])
         partner_module_vals = self._prepare_partner_module_vals(
             partner, version, module, module_info
         )
-
         partner_module = self.search(
             [
                 ("partner_id", "=", partner.id),

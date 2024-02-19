@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="module_information_pr" model="ir.ui.view">
+        <field name="name">module.information.form.view</field>
+        <field name="model">module.information</field>
+        <field
+            name="inherit_id"
+            ref="module_info_partner.module_information_form_view"
+        />
+        <field name="arch" type="xml">
+        <group position="before">
+            <div class="oe_button_box" name="button_box">
+            <button
+                        type="object"
+                        class="oe_stat_button"
+                        name="action_view_pull_request"
+                        icon="fa-eye"
+                    >
+                    <field name="pr_nbr" string="PR" widget="statinfo" />
+            </button>
+            </div>
+        </group>
+        </field>
+    </record>
+
+    <record id="module_info_pull_request_tree_view" model="ir.ui.view">
+        <field name="name">module.information.tree.view</field>
+        <field name="model">module.information</field>
+        <field
+            name="inherit_id"
+            ref="module_info_partner.module_information_tree_view"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="pr_nbr" string="Openned PR" />
+            </field>
+        </field>
+    </record>
+
+    <record id="module_information_search_view" model="ir.ui.view">
+        <field name="name">module.information.search.view</field>
+        <field name="model">module.information</field>
+        <field
+            name="inherit_id"
+            ref="module_info_partner.module_information_search_view"
+        />
+        <field name="arch" type="xml">
+            <field name="module_partner_ids" position="after">
+                    <field name="repo_id" />
+            </field>
+        </field>
+    </record>
+
+    <record
+        id="module_info_partner.module_information_action"
+        model="ir.actions.act_window"
+    >
+        <field name="search_view_id" ref="module_information_search_view" />
+    </record>
+
+</odoo>

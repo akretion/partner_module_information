@@ -19,16 +19,16 @@ class ExternalModuleController(main.RestController):
 
     @classmethod
     def _get_partner_from_request(cls):
-        auth_api_key = getattr(request, "auth_api_key", None)
-        if auth_api_key:
+        auth_api_key_id = getattr(request, "auth_api_key_id", None)
+        if auth_api_key_id:
             partner = request.env["res.partner"].search(
-                [("module_auth_api_key_id", "=", auth_api_key.id)]
+                [("module_auth_api_key_id", "=", auth_api_key_id)]
             )
             if partner:
                 return partner
         raise AccessError(_("No partner match the API KEY"))
 
-    def _get_component_context(self):
-        res = super(ExternalModuleController, self)._get_component_context()
+    def _get_component_context(self, collection):
+        res = super(ExternalModuleController, self)._get_component_context(collection)
         res["partner"] = self._get_partner_from_request()
         return res

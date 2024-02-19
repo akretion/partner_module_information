@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <record forcecreate="True" id="import_module_info_job" model="ir.cron">
-        <field name="name">Synchronize Module information on github</field>
-        <field eval="True" name="active"/>
-        <field name="user_id" ref="base.user_root"/>
+        <field
+            name="name"
+        >Module Information: Synchronize community module informations From Akretion odoo-module-tracker</field>
+        <field eval="True" name="active" />
+        <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">weeks</field>
         <field name="numbercall">-1</field>
-        <field eval="False" name="doall"/>
-        <field ref="model_module_information" name="model_id"/>
+        <field eval="False" name="doall" />
+        <field ref="model_module_information" name="model_id" />
          <field name="state">code</field>
-         <field name="code">model.synchronize_module_from_github_connector_stat()</field>
+         <field name="code">model.synchronize_module()</field>
     </record>
-
 </odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="module_repo_form_view" model="ir.ui.view">
+        <field name="name">module.repo.form.view</field>
+        <field name="model">module.repo</field>
+        <field name="arch" type="xml">
+            <form string="Modules">
+                <header>
+                    <button
+                        name="get_pr_state"
+                        class="oe_highlight"
+                        string="update PR"
+                        type="object"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="%(module_info_partner.module_information_action)d"
+                            type="action"
+                            context="{'search_default_repo_id': active_id}"
+                            icon="fa-globe icon"
+                        >
+                            <field
+                                name="module_nbr"
+                                widget="statinfo"
+                                string="Modules"
+                            />
+                        </button>
+                    </div>
+                    <group name="module_repo_head">
+                        <field name="name" />
+                        <field name="organization" />
+                        <field name="url" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_module_repo_function_search" model="ir.ui.view">
+        <field name="name">module.repo.search</field>
+        <field name="model">module.repo</field>
+        <field name="arch" type="xml">
+            <search string="Search module repo">
+                <field name="name" />
+                <field name="organization" />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_orga"
+                        string="Organization"
+                        context="{'group_by': 'organization'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

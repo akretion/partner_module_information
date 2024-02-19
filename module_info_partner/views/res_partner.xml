@@ -1,19 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
 
     <record id="res_partner_form_view" model="ir.ui.view">
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[last()]" position="after">
                 <page string="Module Info API" name="module_info">
                     <group name="module_info">
-                        <field name="module_auth_api_key_id"/>
+                        <field name="module_auth_api_key_id" />
+                        <field name="version_id" />
                     </group>
                 </page>
             </xpath>
         </field>
     </record>
+
+    <record id="view_module_partner_kanban" model="ir.ui.view">
+            <field name="name">module.partner.kanban</field>
+            <field name="model">res.partner</field>
+            <field eval="15" name="priority" />
+            <field name="arch" type="xml">
+            <kanban class="oe_background_grey" create="0">
+                <field name="id" />
+                <field name="name" />
+                <field name="title" />
+                <field name="image_128" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img
+                                    alt="Contact image"
+                                    t-if="record.image_128.raw_value"
+                                    t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"
+                                />
+                            </div>
+                            <div id="project_box">
+                                <div style="font-weight:bold;">
+                                    <field name="name" />
+                                </div>
+                                <div>
+                                    <a
+                                        name="get_action_module_information_tree"
+                                        type="object"
+                                    >
+                                        <span>Module installed: <t
+                                                t-esc="record.module_nbr.value"
+                                            /></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+            </field>
+    </record>
+
+    <record id="module_partner_project_action" model="ir.actions.act_window">
+        <field name="name">Partner Project</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban</field>
+        <field name="domain">[
+            ('module_auth_api_key_id', '!=', False)
+        ]</field>
+    </record>
+
+    <record id="module_partner_project_action_view2" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence" />
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_module_partner_kanban" />
+            <field name="act_window_id" ref="module_partner_project_action" />
+    </record>
+
+    <menuitem
+        id="module_partner_project_menu"
+        name="Partner Project"
+        parent="modules_information_main_menu"
+        action="module_partner_project_action"
+        sequence="0"
+    />
 
 </odoo>

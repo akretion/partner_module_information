@@ -1,22 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <menuitem id="module_info_menu_root"
+    <menuitem
+        id="module_info_menu_root"
         name="Partner Modules"
-        sequence="20"/>
+        sequence="20"
+        web_icon="module_info_partner,static/description/icon.png"
+    />
 
-    <menuitem id="modules_information_main_menu"
+    <menuitem
+        id="modules_information_main_menu"
         name="Modules"
         parent="module_info_menu_root"
-        sequence="1"/>
+        sequence="1"
+    />
 
     <record id="module_information_search_view" model="ir.ui.view">
         <field name="name">module.information.search.view</field>
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <search string="Module Information">
-                <field name="technical_name"/>
-                <field name="name"/>
+                <field name="name" />
+                <field name="shortdesc" />
+                <field
+                    name="module_partner_ids"
+                    string="Project"
+                    filter_domain="[('module_partner_ids.partner_id.name', 'ilike', self)]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_repo"
+                        string="Repo"
+                        context="{'group_by': 'repo_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>
@@ -26,9 +43,8 @@
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <tree string="Module Information">
-                <field name="technical_name"/>
-                <field name="name"/>
-                <field name="authors"/>
+                <field name="name" />
+                <field name="repo_id" />
             </tree>
         </field>
     </record>
@@ -38,46 +54,68 @@
         <field name="model">module.information</field>
         <field name="arch" type="xml">
             <form string="Module Information">
-                <group name="general_info">
-                    <field name="technical_name"/>
-                    <field name="name"/>
-                    <field name="authors"/>
-                </group>
-                <notebook>
-                    <page string="Versions And modules">
-                        <separator string="Available Versions"/>
-                        <field name="available_version_ids"/>
-                        <separator string="Work in Progress Versions"/>
-                        <field name="wip_version_ids"/>
-                        <separator string="Equivalent Modules"/>
-                        <field name="equivalent_module_ids"/>
-                        <separator string="Alternative Modules"/>
-                        <field name="alternative_module_ids"/>
-                    </page>
-                    <page string="Full description">
-                        <group>
-                            <field name="short_description"/>
-                        </group>
-                        <field name="description_html"/>
-                    </page>
-                </notebook>
+                <sheet>
+                    <group name="general_info">
+                        <field name="name" />
+                        <field name="shortdesc" />
+                        <field name="authors" />
+                        <field name="repo_id" />
+                        <field name="partner_id" />
+                    </group>
+                    <notebook>
+                        <page string="Versions And modules">
+                            <field name="module_partner_ids">
+                                <tree default_order="version_id">
+                                    <field name="partner_id" />
+                                    <field name="version_id" />
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="Note interne" />
+                            <separator string="Available Versions" />
+                            <field
+                                name="available_version_ids"
+                                widget="many2many_tags"
+                            />
+                            <separator string="Work in Progress Versions" />
+                            <field name="wip_version_ids" widget="many2many_tags" />
+                            <separator string="Equivalent Modules" />
+                            <field
+                                name="equivalent_module_ids"
+                                widget="many2many_tags"
+                            />
+                            <separator string="Alternative Modules" />
+                            <field
+                                name="alternative_module_ids"
+                                widget="many2many_tags"
+                            />
+                        </page>
+                        <page string="Full description">
+                            <group>
+                                <field name="description" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
             </form>
         </field>
     </record>
+
+
 
     <record id="module_information_action" model="ir.actions.act_window">
         <field name="name">Module Information</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">module.information</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="module_information_search_view"/>
+        <field name="search_view_id" ref="module_information_search_view" />
     </record>
 
-    <menuitem id="module_information_menu"
+    <menuitem
+        id="module_information_menu"
         name="Module Information"
         parent="modules_information_main_menu"
         action="module_information_action"
-        sequence="3"/>
+        sequence="3"
+    />
 
 </odoo>

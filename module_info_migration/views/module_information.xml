@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="module_information_form_view" model="ir.ui.view">
+        <field name="model">module.information</field>
+        <field
+            name="inherit_id"
+            ref="module_info_partner.module_information_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="authors" position="after">
+                <field name="obsolete_version_id" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

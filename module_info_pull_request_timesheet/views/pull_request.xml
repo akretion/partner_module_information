@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pull_request_form_view" model="ir.ui.view">
+        <field name="name">pull.request.form.view</field>
+        <field name="model">pull.request</field>
+        <field
+            name="inherit_id"
+            ref="module_info_pull_request.pull_request_form_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='pr_info']" position="inside">
+                <group name="pr_timesheet">
+                    <field name="need_review" />
+                    <field
+                        name="project_id"
+                        attrs="{'required': ['|',('need_review', '=', True),('timesheet_ids', '!=', [])]}"
+                    />
+                    <field
+                        name="task_id"
+                        attrs="{'required': ['|',('need_review', '=', True),('timesheet_ids', '!=', [])]}"
+                    />
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='pr_info']" position="after">
+                <group
+                    string="Timesheet"
+                    attrs="{'invisible': [('timesheet_ids', '=', []), '|',('project_id', '=', False), ('task_id', '=', False) ]}"
+                >
+                    <field
+                        colspan="4"
+                        name="timesheet_ids"
+                        mode="tree,kanban"
+                        nolabel="1"
+                        context="{'default_project_id': project_id, 'default_name':''}"
+                    >
+                        <tree
+                            editable="bottom"
+                            string="Timesheet Activities"
+                            default_order="date"
+                        >
+                            <field name="date" />
+                            <field name="user_id" invisible="1" />
+                            <field
+                                name="employee_id"
+                                required="1"
+                                widget="many2one_avatar_employee"
+                                context="{'active_test': True}"
+                            />
+                            <field name="name" required="0" />
+                            <field
+                                name="unit_amount"
+                                widget="timesheet_uom"
+                                decoration-danger="unit_amount &gt; 24"
+                            />
+                            <field name="project_id" invisible="1" />
+                            <field name="task_id" invisible="1" />
+                            <field name="company_id" invisible="1" />
+
+                        </tree>
+                        <form string="Timesheet Activities">
+                            <sheet>
+                                    <group>
+                                    <field name="date" />
+                                    <field name="user_id" invisible="1" />
+                                    <field
+                                        name="employee_id"
+                                        required="1"
+                                        widget="many2one_avatar_employee"
+                                        context="{'active_test': True}"
+                                    />
+                                    <field name="name" required="0" />
+                                    <field
+                                        name="unit_amount"
+                                        string="Duration"
+                                        widget="float_time"
+                                        decoration-danger="unit_amount &gt; 24"
+                                    />
+                                    <field name="project_id" invisible="1" />
+                                    <field name="task_id" invisible="1" />
+                                    <field name="company_id" invisible="1" />
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="pull_request_tree_view" model="ir.ui.view">
+        <field name="name">pull.request.tree.view</field>
+        <field name="model">pull.request</field>
+        <field name="arch" type="xml">
+            <tree string="Pull Request">
+                <field name="title" />
+                <field name="repo_id" />
+                <field name="module_ids" widget="many2many_tags" />
+                <field name="orga" />
+                <field name="author" />
+                <field name="date_open" />
+                <field name="date_updated" />
+                <field name="date_closed" />
+                <field name="version_id" />
+                <field name="state" />
+                <field name="reviewer_ids" widget="many2many_tags" />
+                <button
+                    name="open_url"
+                    type="object"
+                    string="Open"
+                    icon="fa-arrow-right"
+                />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pull_request_form_view" model="ir.ui.view">
+        <field name="name">pull.request.form.view</field>
+        <field name="model">pull.request</field>
+        <field name="arch" type="xml">
+            <form string="Pull Request">
+                <sheet>
+                    <group name="pr_head">
+                        <group>
+                            <field name="title" />
+                            <field name="repo_id" />
+                            <field name="orga" />
+                            <field name="author" />
+                            <field name="date_open" />
+                            <field name="date_updated" />
+                            <field name="date_closed" />
+                        </group>
+                        <group>
+                            <field name="state" />
+                            <field name="version_id" />
+                            <field name="url" widget="url" />
+                            <field name="number" />
+                        </group>
+                    </group>
+                    <group name="pr_info">
+                        <group>
+                        <field name="module_ids" widget="many2many_tags" />
+                        <field name="reviewer_ids" widget="many2many_tags" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pull_request_search_view" model="ir.ui.view">
+        <field name="name">pull.request.search.view</field>
+        <field name="model">pull.request</field>
+        <field name="arch" type="xml">
+            <search string="Pull Request">
+                <field name="author_user_id" />
+                <field name="module_ids" />
+                <filter
+                    name="opened"
+                    string="Opened PR"
+                    domain="[('state', '=', 'open')]"
+                />
+                <filter
+                    name="closed"
+                    string="Closed PR"
+                    domain="[('state', '=', 'closed')]"
+                />
+                <separator />
+                <filter
+                    name="v14"
+                    string="V14"
+                    domain="[('version_id', '=', '14.0')]"
+                />
+                <filter
+                    name="v15"
+                    string="V15"
+                    domain="[('version_id', '=', '15.0')]"
+                />
+                <filter name="v16" string="V16" domain="" />
+                <separator />
+                <filter
+                    name="myreview"
+                    string="My Reviews"
+                    domain="[('reviewer_ids', '=', uid)]"
+                />
+                <filter
+                    name="availablereview"
+                    string="Available Review"
+                    domain="[('reviewer_ids_nbr', '&lt;', 2 )]"
+                />
+                <filter
+                    name="mypr"
+                    string="My PR"
+                    domain="[('author_user_id', '=', uid )]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_repo"
+                        string="Repo"
+                        context="{'group_by': 'repo_id'}"
+                    />
+                    <filter
+                        name="group_by_orga"
+                        string="Organization"
+                        context="{'group_by': 'orga'}"
+                    />
+                    <filter
+                        name="group_by_author"
+                        string="Author"
+                        context="{'group_by': 'author'}"
+                    />
+                    <filter
+                        name="group_by_version"
+                        string="Version"
+                        context="{'group_by': 'version_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pull_request_action" model="ir.actions.act_window">
+        <field name="name">Pull Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pull.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="pull_request_search_view" />
+        <field name="context">{'search_default_opened': 1}</field>
+    </record>
+
+
+    <menuitem
+        id="pull_request_main_menu"
+        name="PR"
+        parent="module_info_partner.module_info_menu_root"
+        action="pull_request_action"
+        sequence="2"
+    />
+
+
+</odoo>
