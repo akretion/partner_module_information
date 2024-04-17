@@ -3,6 +3,7 @@
 import requests
 from openerp import models, fields, api, release, _
 from openerp.exceptions import Warning as UserError
+from openerp.modules.module import get_module_path
 import logging
 
 
@@ -14,6 +15,8 @@ ERROR_MESSAGE = _("There is an issue with module synchronization")
 
 class IrModuleModule(models.Model):
     _inherit = "ir.module.module"
+
+    is_custom_module = fields.Boolean(compute="_compute_is_custom_module", store=True)
 
     @api.model
     def _get_installed_module_info(self):
@@ -30,6 +33,7 @@ class IrModuleModule(models.Model):
                 "shortdesc": module.shortdesc,
                 "description": description,
                 "author": module.author,
+                "is_custom": module.is_custom_module,
             }
             info["modules"].append(modules_info)
         return info
@@ -61,3 +65,13 @@ class IrModuleModule(models.Model):
             )
             raise UserError(ERROR_MESSAGE)
         return data
+
+    def _compute_is_custom_module(self):
+        custom_path = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("module.custom.path", "/local-src/")
+        )
+        for record in self:
+            module_path = get_module_path(record.name)
+            record.is_custom_module = module_path and custom_path in module_path
