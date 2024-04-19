@@ -20,7 +20,7 @@ class ModulePartner(models.Model):
         "partner_id.target_odoo_version_id",
         "module_id.wip_version_ids",
         "module_id.obsolete_version_id",
-        "task_ids.stage_id",
+        # "task_ids.stage_id",
     )
     def _compute_migrated(self):
         versions = self.env["odoo.version"].search([])
