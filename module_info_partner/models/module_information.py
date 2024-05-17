@@ -14,9 +14,7 @@ class ModuleInformation(models.Model):
     )
     description = fields.Html(readonly=True)
     authors = fields.Char(readonly=True, index=True)
-    repo_id = fields.Many2one(
-        "module.repo", index=True, string="Host Repository"
-    )
+    repo_id = fields.Many2one("module.repo", index=True, string="Host Repository")
     partner_id = fields.Many2one(
         "res.partner", index=True, string="Partner's Custom Module", readonly=True
     )

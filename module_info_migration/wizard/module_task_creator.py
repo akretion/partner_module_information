@@ -1,4 +1,4 @@
-from odoo import exceptions, fields, models
+from odoo import _, exceptions, fields, models
 
 
 class ModuleInformation(models.TransientModel):
@@ -10,7 +10,7 @@ class ModuleInformation(models.TransientModel):
         partners = modules.mapped("partner_id")
         if len(partners) > 1:
             raise exceptions.UserError(
-                "You should create task for one partner at a time"
+                _("You should create task for one partner at a time")
             )
         return partners
 
