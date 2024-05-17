@@ -10,6 +10,7 @@
                 <field name="name" />
                 <field name="url" />
                 <field name="module_ids" />
+                <field name="authors" />
             </tree>
         </field>
     </record>
