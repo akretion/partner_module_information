@@ -44,7 +44,6 @@ class TestinfoImport(TransactionCase):
             )
 
     def test_modules_import_duplicate(self):
-
         data_dir = os.path.join(
             os.path.dirname(__file__), "data", "module_list_14_duplicate.yaml"
         )

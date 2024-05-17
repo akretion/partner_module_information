@@ -31,7 +31,7 @@ class ModulePartner(models.Model):
             if record.module_id.obsolete_version_id:
                 obsolete_version_ids = versions.filtered(
                     lambda v: float(v.name)
-                    >= float(record.module_id.obsolete_version_id.name)
+                    >= float(record.module_id.obsolete_version_id.name)  # noqa: B023
                 ).ids
             else:
                 obsolete_version_ids = []
