@@ -11,7 +11,7 @@
         "views/res_partner.xml",
         "views/module_partner.xml",
         "views/module_information.xml",
-        "wizard/module_task_creator.xml",
+        # "wizard/module_task_creator.xml",
     ],
-    "installable": False,
+    "installable": True,
 }
