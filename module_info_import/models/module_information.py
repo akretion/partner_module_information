@@ -103,6 +103,4 @@ class ModuleInformation(models.Model):
             [float(v) for v in self.mapped("available_version_ids.name")]
         ) <= float(version) and orga_priority.get(
             self.repo_id.organization, 0
-        ) <= orga_priority.get(
-            orga, 0
-        )
+        ) <= orga_priority.get(orga, 0)

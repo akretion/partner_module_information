@@ -19,7 +19,6 @@ class TestinfoImport(TransactionCase):
     def test_module_from_pr(self):
         url = "https://api.github.com/repos/test/test/pulls"
         with requests_mock.mock() as m:
-
             m.get(url, text=self.pr_diff)
             res = self.env["pull.request"]._get_module_from_pr(url, self.modules)
             self.assertEqual(len(res), 1)

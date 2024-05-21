@@ -45,6 +45,7 @@
             <tree string="Module Information">
                 <field name="name" />
                 <field name="repo_id" />
+                <field name="authors" />
             </tree>
         </field>
     </record>

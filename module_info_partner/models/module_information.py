@@ -14,9 +14,7 @@ class ModuleInformation(models.Model):
     )
     description = fields.Html(readonly=True)
     authors = fields.Char(readonly=True, index=True)
-    repo_id = fields.Many2one(
-        "module.repo", readonly=True, index=True, string="Host Repository"
-    )
+    repo_id = fields.Many2one("module.repo", index=True, string="Host Repository")
     partner_id = fields.Many2one(
         "res.partner", index=True, string="Partner's Custom Module", readonly=True
     )
@@ -91,8 +89,8 @@ class ModuleInformation(models.Model):
                 elif module_version.state == "pending":
                     wip_version_ids.append(module_version.version_id.id)
             missing_versions = odoo_versions.filtered(
-                lambda v: v.id not in available_version_ids
-                and v.id not in wip_version_ids
+                lambda v: v.id not in available_version_ids  # noqa: B023
+                and v.id not in wip_version_ids  # noqa: B023
             )
             for missing_version in missing_versions:
                 equivalent_modules = module._get_equivalent_modules_from_version(

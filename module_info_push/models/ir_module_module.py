@@ -51,7 +51,7 @@ class IrModuleModule(models.Model):
             )
         except Exception as e:
             _logger.error("Error when calling odoo %s", e)
-            raise UserError(ERROR_MESSAGE)
+            raise UserError(ERROR_MESSAGE) from e
         data = res.json()
         if isinstance(data, dict) and data.get("code", 0) >= 400:
             _logger.error(
