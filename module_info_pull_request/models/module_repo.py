@@ -14,15 +14,23 @@ class ModuleRepo(models.Model):
     _inherit = "module.repo"
 
     date_last_updated = fields.Datetime(string="Last Update date", readonly=True)
+    ignore_pr_import = fields.Boolean()
 
     def cron_import_pr(self):
-        repos = self.search([])
-        for repo in repos:
+        repos = self.search([("ignore_pr_import", "!=", True)])
+        # delay job in time because github have some request limit by hours
+        # let's say we want it to be processed in more or less 12H
+        job_num_by_hour = int(len(repos) / 12)
+        eta = 0
+        for i, repo in enumerate(repos, 1):
             repo.with_delay(
                 max_retries=2,
+                eta=eta,
                 description="import PR infos for repo: "
                 f"{repo.organization}/{repo.name}",
             ).import_pr()
+            if i % job_num_by_hour == 0:
+                eta += 60 * 60
 
     def import_pr(self):
         git_token = (
