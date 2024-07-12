@@ -110,8 +110,8 @@ class ModuleInformation(models.Model):
                     else:
                         wip_version_ids.append(missing_version.id)
 
-            module.available_version_ids = available_version_ids
-            module.wip_version_ids = wip_version_ids
+            module.available_version_ids = available_version_ids or False
+            module.wip_version_ids = wip_version_ids or False
 
     def _get_equivalent_modules_from_version(self, version):
         self.ensure_one()
