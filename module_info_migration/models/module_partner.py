@@ -27,6 +27,7 @@ class ModulePartner(models.Model):
         for record in self:
             target_version = record.partner_id.target_odoo_version_id
             if not target_version:
+                record.migration_status = False
                 continue
             if record.module_id.obsolete_version_id:
                 obsolete_version_ids = versions.filtered(
@@ -41,3 +42,5 @@ class ModulePartner(models.Model):
                 record.migration_status = "obsolete"
             elif target_version in record.module_id.available_version_ids:
                 record.migration_status = "done"
+            else:
+                record.migration_status = False
