@@ -1,15 +1,15 @@
 
 <!-- /!\ Non OCA Context : Set here the badge of your runbot / runboat instance. -->
-[![Pre-commit Status](https://github.com/akretion/partner-module-information/actions/workflows/pre-commit.yml/badge.svg?branch=14.0)](https://github.com/akretion/partner-module-information/actions/workflows/pre-commit.yml?query=branch%3A14.0)
-[![Build Status](https://github.com/akretion/partner-module-information/actions/workflows/test.yml/badge.svg?branch=14.0)](https://github.com/akretion/partner-module-information/actions/workflows/test.yml?query=branch%3A14.0)
-[![codecov](https://codecov.io/gh/akretion/partner-module-information/branch/14.0/graph/badge.svg)](https://codecov.io/gh/akretion/partner-module-information)
+[![Pre-commit Status](https://github.com/akretion/partner-module-information/actions/workflows/pre-commit.yml/badge.svg?branch=16.0)](https://github.com/akretion/partner-module-information/actions/workflows/pre-commit.yml?query=branch%3A16.0)
+[![Build Status](https://github.com/akretion/partner-module-information/actions/workflows/test.yml/badge.svg?branch=16.0)](https://github.com/akretion/partner-module-information/actions/workflows/test.yml?query=branch%3A16.0)
+[![codecov](https://codecov.io/gh/akretion/partner-module-information/branch/16.0/graph/badge.svg)](https://codecov.io/gh/akretion/partner-module-information)
 <!-- /!\ Non OCA Context : Set here the badge of your translation instance. -->
 
 <!-- /!\ do not modify above this line -->
 
 # Partner Module Information
 
-Repo for managing odoo modules
+Repo for managing odoo modules and follow migration by project
 
 This repo allow you to :
 
