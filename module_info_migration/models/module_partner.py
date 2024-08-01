@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, exceptions, fields, models
 
 
 class ModulePartner(models.Model):
@@ -44,3 +44,23 @@ class ModulePartner(models.Model):
                 record.migration_status = "done"
             else:
                 record.migration_status = False
+
+    def open_pull_request(self):
+        self.ensure_one()
+        dest_module_version = self.env["module.version"].search(
+            [
+                ("version_id", "=", self.partner_id.target_odoo_version_id.id),
+                ("url_pull_request", "!=", False),
+                ("module_id", "=", self.module_id.id),
+                ("state", "=", "pending"),
+            ]
+        )
+        if not dest_module_version:
+            raise exceptions.UserError(_("No known migration PR for this module."))
+        client_action = {
+            "type": "ir.actions.act_url",
+            "name": "Migration PR",
+            "target": "new",
+            "url": dest_module_version.url_pull_request,
+        }
+        return client_action
