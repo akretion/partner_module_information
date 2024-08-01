@@ -7,6 +7,13 @@
         <field name="arch" type="xml">
             <field name="version_id" position="after">
                 <field name="migration_status" />
+                <button
+                    name="open_pull_request"
+                    icon="fa-github"
+                    type="object"
+                    title="Open PR"
+                    attrs="{'invisible': [('migration_status', '!=', 'ongoing_pr')]}"
+                />
             </field>
         </field>
     </record>
