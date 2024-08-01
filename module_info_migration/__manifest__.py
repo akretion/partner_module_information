@@ -7,10 +7,11 @@
     "category": "Tools",
     "depends": ["module_info_partner", "project", "project_stage_state"],
     "data": [
+        "security/ir.model.access.csv",
         "views/res_partner.xml",
         "views/module_partner.xml",
         "views/module_information.xml",
-        # "wizard/module_task_creator.xml",
+        "wizard/module_task_creator.xml",
     ],
     "installable": True,
 }
