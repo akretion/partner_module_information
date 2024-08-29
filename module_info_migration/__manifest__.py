@@ -5,7 +5,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/akretion/partner-module-information",
     "category": "Tools",
-    "depends": ["module_info_partner", "project", "project_stage_state"],
+    "depends": ["module_info_partner", "project", "project_task_stage_state"],
     "data": [
         "security/ir.model.access.csv",
         "views/res_partner.xml",
