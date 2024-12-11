@@ -9,7 +9,9 @@ class ResPartner(models.Model):
     module_nbr = fields.Integer(compute="_compute_module_nbr")
 
     def get_action_module_information_tree(self):
-        modules = self.env["module.partner"].search([("partner_id", "=", self.id)])
+        modules = self.env["module.partner"].search(
+            [("partner_id", "=", self.id), ("version_id", "=", self.version_id.id)]
+        )
         modules = modules.mapped("module_id.id")
         return {
             "type": "ir.actions.act_window",
@@ -23,5 +25,8 @@ class ResPartner(models.Model):
     def _compute_module_nbr(self):
         for record in self:
             record.module_nbr = self.env["module.partner"].search_count(
-                [("partner_id", "=", record.id)]
+                [
+                    ("partner_id", "=", record.id),
+                    ("version_id", "=", record.version_id.id),
+                ]
             )

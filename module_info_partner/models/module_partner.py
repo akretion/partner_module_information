@@ -26,6 +26,10 @@ class ModulePartner(models.Model):
         string="Module",
         ondelete="cascade",
     )
+    migration_duration = fields.Float(
+        "Migration duration", help="Migration duration in days"
+    )
+    description = fields.Text()
 
     @api.model
     def _prepare_module_info_vals(self, module_info, partner):
