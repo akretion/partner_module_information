@@ -66,9 +66,11 @@
                     <notebook>
                         <page string="Versions And modules">
                             <field name="module_partner_ids">
-                                <tree default_order="version_id">
+                                <tree default_order="version_id" editable="bottom">
                                     <field name="partner_id" />
                                     <field name="version_id" />
+                                    <field name="migration_duration" />
+                                    <field name="description" />
                                 </tree>
                             </field>
                             <field name="note" placeholder="Note interne" />
